@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  resources :payments
+
+  resources :tenants
+
+  resources :managers
+
+  resources :units
+
+  resources :receivables
+
+  resources :buildings
+
+  resources :landlords
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

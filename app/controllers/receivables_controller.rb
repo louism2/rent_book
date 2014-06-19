@@ -1,0 +1,2 @@
+class ReceivablesController < ApplicationController
+end
