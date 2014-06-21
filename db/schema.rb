@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140619055300) do
+ActiveRecord::Schema.define(version: 20140620183133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20140619055300) do
   create_table "managers", force: true do |t|
     t.string   "name",             limit: 50
     t.string   "email",            limit: 70
-    t.integer  "responsibilities",            array: true
+    t.integer  "responsibilities",            default: [], array: true
     t.string   "phone_number",     limit: 10
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -61,15 +61,16 @@ ActiveRecord::Schema.define(version: 20140619055300) do
     t.string   "email",              limit: 70
     t.date     "date_of_birth"
     t.string   "stripe_token",       limit: 50
-    t.integer  "rental_obligations",            array: true
+    t.integer  "rental_obligations",            default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "units", force: true do |t|
     t.integer  "building_id"
-    t.decimal  "monthly_rent", precision: 7, scale: 5
-    t.integer  "tenants",                              array: true
+    t.string   "unit_number",  limit: 20
+    t.decimal  "monthly_rent",            precision: 7, scale: 2
+    t.integer  "tenants",                                         array: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

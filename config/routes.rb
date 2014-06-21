@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :buildings
 
   resources :landlords
+  
+  get '/stripe/account_authorization' => 'landlords#auth'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

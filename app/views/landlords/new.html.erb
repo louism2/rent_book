@@ -1,0 +1,10 @@
+<form action="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_4G71KSnxGfaUqrR7Y0gXgyCoktnasmhp&scope=read_write">
+	<button type="submit">Click here to go the stripe page</button>
+</form>	
+
+
+
+curl -X POST https://connect.stripe.com/oauth/token \
+  -d client_secret=sk_test_tTndnwq76QzfilIrXTok7yhK \
+  -d code=ac_4G98Kfz0TDWwpYfBcQchf6lx20VubdEn \
+  -d grant_type=authorization_code
