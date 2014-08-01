@@ -1,0 +1,8 @@
+<h1>Sign In</h1>
+<%= form_tag '/sessions' do %>
+	<%= label_tag :email %>
+	<%= text_field_tag :email %>
+	<%= label_tag :password %>
+	<%= text_field_tag :password %>
+	<%= submit_tag 'sign in', class: 'green_submit_button' %>
+<% end %>

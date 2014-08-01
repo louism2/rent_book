@@ -1,6 +1,9 @@
 class LandlordsController < ApplicationController
   
   def auth
+    
+    # dev_cleint_id: ca_4G71KSnxGfaUqrR7Y0gXgyCoktnasmhp
+    
     #code = params[:code]
     code = "ac_4G7o02ADrpH1vgjQmz3Nc6jUHR5gXcgL"
     postData = Net::HTTP.post_form(URI.parse('https://connect.stripe.com/oauth/token'), {'code'=> code, 'client_secret' => 'sk_test_tTndnwq76QzfilIrXTok7yhK'})
@@ -18,12 +21,47 @@ class LandlordsController < ApplicationController
     #   "stripe_user_id": "acct_1AGl5ZbcBpkM6oOuJldY",
     #   "scope": "read_write"
     # }
-    
-    
   end
   
   def new
+    render nothing: true
+    
+  end
   
+  def create
+    @landlord = Landlord.create(landlord_attributes)
+    if @landlord.persisted?
+      sign_in @landlord
+      render json: {landlord: {id: @landlord.id}}
+    else
+      render json: {errors: @landlord.errors}
+    end
+  end
+  
+  def show
+    @landlord = Landlord.find(current_user)
+    render json: {landlord: @landlord}
+  end
+  
+  def edit
+    @landlord = Landlord.find(current_user)
+  end
+  
+  def update
+    @landlord = Landlord.find(current_user)
+    if @landlord.update_attributes(landlord_attributes)
+     flash[:success] = "Account Updated!"
+     redirect_to @landlord
+    else
+     flash.now[:failure] = "Correct the errors on the form"
+     render 'edit'
+    end
+  end
+  
+private
+
+  def landlord_attributes
+    params.require(:landlord).permit(:name, :email, :password, :password_confirmation)
   end
   
 end

@@ -8,6 +8,8 @@ FactoryGirl.define do
     factory :landlord do
       name "Louie Mancini"
       email "louiscmancini@gmail.com"
+      password "Test1234"
+      password_confirmation "Test1234"
     end
 
     factory :manager do

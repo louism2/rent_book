@@ -6,9 +6,22 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
+<script type='text/javascript'>
+		
+	$(document).ready(function(){
+		window.$container = $('#content_container');
+		window.router = new backbone_data.Routers.ApplicationRouter();
+		Backbone.history.start({pushState: true});
+		router.navigate(window.location.pathname, {trigger: true});
+	});
+
+</script>
 <body>
-
-<%= yield %>
-
+	<div id='header_nav'>
+		<span>RB</span>
+	</div>	
+	<div id='content_container'>
+		
+	</div>
 </body>
 </html>

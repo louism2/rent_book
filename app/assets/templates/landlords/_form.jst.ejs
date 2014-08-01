@@ -1,0 +1,13 @@
+<%= view_helpers.form_tag('#',{method: 'POST', id: 'landlord_form'}) %>
+	<label>Name</label>
+	<%= view_helpers.text_field_tag('name', name) %>
+	<label>Email</label>
+	<%= view_helpers.text_field_tag('email', email) %>
+	<label>Email Confirmation</label>
+	<%= view_helpers.text_field_tag('email_confirmation') %>	
+	<label>Password</label>
+	<%= view_helpers.text_field_tag('password') %>
+	<label>Password Confirmation</label>
+	<%= view_helpers.text_field_tag('password_confirmation') %>		
+	<%= view_helpers.submit_tag('Create Account', {id: 'create_landlord'})%>		
+<% view_helpers.end_form_tag %>

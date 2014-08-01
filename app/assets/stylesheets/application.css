@@ -13,3 +13,45 @@
  *= require_tree .
  *= require_self
  */
+body{
+	margin: 0;
+}
+
+#content_container{
+	width: 90%;
+	margin: 0 auto;
+}
+
+input[type=text]{
+	width: 12em;
+	font-size: 1em;
+	display: block;
+}
+
+input[type=submit], input[type=file]{
+	display: block;
+}
+
+.green_submit_button{
+	margin-top: 1em;
+	background-color: #00CD00;
+	color: white;
+	border: 2px solid grey;
+	border-radius:25px;
+	-moz-border-radius:25px; /* Old Firefox */
+	cursor: pointer;
+}
+
+
+@media all and (max-width: 620px){
+	#content_container{
+		
+	}
+	
+	input[type=text]{
+		width: 12em;
+		font-size: 1.2em;
+		display:block;
+	}
+}
+

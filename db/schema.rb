@@ -11,24 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140620183133) do
+ActiveRecord::Schema.define(version: 20140708003336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
   create_table "buildings", force: true do |t|
-    t.string   "name",       limit: 100
-    t.string   "address",    limit: 100
+    t.string   "name",           limit: 50
+    t.string   "street_address", limit: 50
+    t.string   "city",           limit: 50
+    t.string   "state",          limit: 2
+    t.string   "zip_code",       limit: 5
+    t.integer  "landlord_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "landlords", force: true do |t|
-    t.string   "name",       limit: 50
-    t.string   "email",      limit: 70
+    t.string   "name",               limit: 50
+    t.string   "email",              limit: 70
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "salt"
+    t.string   "encrypted_password"
+    t.string   "stripe_token"
   end
 
   create_table "managers", force: true do |t|

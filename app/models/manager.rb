@@ -1,5 +1,5 @@
 class Manager < ActiveRecord::Base
-  require 'array_type_validator'
+  #require 'array_type_validator'
   
   validates :name,              :presence => true  
   

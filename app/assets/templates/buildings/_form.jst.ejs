@@ -1,0 +1,15 @@
+<%= view_helpers.form_tag('#',{method: 'POST', id: 'building_form', multipart: true}) %>
+<label>Building Name</label>
+<%= view_helpers.text_field_tag('name', name) %>
+<label>Street Address</label>
+<%= view_helpers.text_field_tag('street_address', street_address) %>
+<label>City</label>
+<%= view_helpers.text_field_tag('city', city) %>	
+<label>State</label>
+<%= view_helpers.text_field_tag('state', state) %>
+<label>Zip Code</label>
+<%= view_helpers.text_field_tag('zip_code', zip_code) %>
+<label>Units Spreadsheet</label>
+<%= view_helpers.input_field_tag('units_spreadsheet', null, 'file')%>		
+<%= view_helpers.submit_tag('Create Building', {id: 'create_building', class: 'green_submit_button'}) %>
+<%= view_helpers.end_form_tag %>

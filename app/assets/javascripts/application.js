@@ -13,4 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require index.js
+//= require underscore
+//= require_tree ../templates
+//= require backbone
+//= require rent_book
+//= require_tree ./backbone
 //= require_tree .
