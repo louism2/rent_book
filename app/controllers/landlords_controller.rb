@@ -29,33 +29,29 @@ class LandlordsController < ApplicationController
   end
   
   def create
-    @landlord = Landlord.create(landlord_attributes)
-    if @landlord.persisted?
-      sign_in @landlord
-      render json: {landlord: {id: @landlord.id}}
+    landlord = Landlord.create(landlord_attributes)
+    if landlord.persisted?
+      sign_in landlord
+      render json: {landlord: {id: landlord.id}}
     else
-      render json: {errors: @landlord.errors}
+      response.status = "400"
+      render json: {errors: landlord.errors}
     end
   end
   
   def show
-    @landlord = Landlord.find(current_user)
-    render json: {landlord: @landlord}
+    landlord = Landlord.includes(:buildings).find(current_user.id)
+    render json: {landlord: landlord, buildings: landlord.buildings}
   end
   
   def edit
-    @landlord = Landlord.find(current_user)
+    landlord = Landlord.find(current_user)
+    render json: {landlord: landlord}
   end
   
   def update
-    @landlord = Landlord.find(current_user)
-    if @landlord.update_attributes(landlord_attributes)
-     flash[:success] = "Account Updated!"
-     redirect_to @landlord
-    else
-     flash.now[:failure] = "Correct the errors on the form"
-     render 'edit'
-    end
+    landlord = Landlord.find(current_user)
+
   end
   
 private

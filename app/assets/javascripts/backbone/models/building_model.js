@@ -5,8 +5,6 @@ backbone_data.Models.Building = Backbone.Model.extend({
 		city: "",
 		state: "",
 		zip_code: "",
-		data:"",
-		filename:""
 	},
 	initialize: function(attributes, options){
 		this.url = this.id ? '/buildings/'+this.id : '/buildings'; 	

@@ -8,8 +8,6 @@
 <label>State</label>
 <%= view_helpers.text_field_tag('state', state) %>
 <label>Zip Code</label>
-<%= view_helpers.text_field_tag('zip_code', zip_code) %>
-<label>Units Spreadsheet</label>
-<%= view_helpers.input_field_tag('units_spreadsheet', null, 'file')%>		
+<%= view_helpers.text_field_tag('zip_code', zip_code) %>	
 <%= view_helpers.submit_tag('Create Building', {id: 'create_building', class: 'green_submit_button'}) %>
 <%= view_helpers.end_form_tag %>

@@ -9,46 +9,37 @@ backbone_data.Views.NewBuildingView = Backbone.View.extend({
 	},
 	initialize: function(options){
 		var self = this;
-		this.model.on('sync', function(model, response, options){
+		self.model.on('sync', function(model, response, options){
 			if(response.errors){
 				// render errors in view
 			}else{
+				model.set({id: response.id});
+				ns.buildingsCollection.add(model);
 				self.displayBuilding(model, response);
 			}
 		});
-		this.model.on('invalid', function(model){
+		self.model.on('invalid', function(model){
 			console.log('invalid callback');
+			// render errors in view
 		});
 	},
 	createBuilding: function(event){
 		var model = this.model;
-		this.assignValues(event);
-		if(!model.file){
-			model.save();
-		};
+		for(x=0;x < event.target.length-1; x++){
+			var key = event.target[x].name;
+			var val = event.target[x].value;
+			model.set(key, val);
+		}
+		model.save(model.attributes, {error: function(res){
+			console.log(res);
+		}});
 		return false;
 	},
-	assignValues: function(event){
-		var model = this.model;
-		model.file = false;
-		for(x=0;x < event.target.length-1; x++){
-			var val, key = event.target[x].name;
-			console.log(key);
-			if(key === 'units_spreadsheet'){
-				if(!event.target[x].value){
-					break;
-				}
-				var file = event.target[x].files[0];
-				val = model.readFile(file);
-			}else{
-				val = event.target[x].value;
-				model.set(key, val);
-			}
-		}
-	},
-	displayBuilding: function(model, response){	
-		var showBuildingdView = new backbone_data.Views.ShowBuildingView({model: model, response: response});
-		$container.html(showBuildingView.render().el);
+	displayBuilding: function(model, response){		
+		var landlord_id = ns.landlord.id;
+		//var showBuildingdView = new backbone_data.Views.ShowBuildingView({model: model});
+		//$container.html(showBuildingView.render().el);
+		//router.navigate('landlords/'+landlord_id+'/buildings/'+model.id);	
 	},
 	displayErrors: function(model_object){
 

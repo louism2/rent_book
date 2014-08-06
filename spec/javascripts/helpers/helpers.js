@@ -1,11 +1,7 @@
 function testRouteTriggerOnUrlMatch(router, url, function_name){
-	var spy = spyOn(router, function_name).and.callThrough();
-    pushStateSpy = spyOn(window.history, 'pushState').and.callFake(function (data, title, triggered_url) {
-        expect(triggered_url).toEqual('/'+url);
-        router[function_name]();
-    });
-    router.navigate(url);
-    expect(pushStateSpy).toHaveBeenCalled();
+	var spy = spyOn(router, function_name);//.and.callThrough();
+	pushStateSpy = spyOn(window.history, 'pushState');
+    router.navigate(url, true);
     expect(spy).toHaveBeenCalled();
 }
 

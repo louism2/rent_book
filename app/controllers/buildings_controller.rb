@@ -4,9 +4,19 @@ class BuildingsController < ApplicationController
   require "spreadsheet_handler"
   
   def create
-    SpreadsheetHandler.compile_units(params['building']['filename'],params['building']['data'])
+    building = Building.create(building_parameters.merge!({landlord_id: current_user.id}))
+    if building.persisted?
+      render json: {id: building.id}
+    else
+      response.status = "400"
+      render json: {errors: building.errors}
+    end
+  end
+  
+private
 
-    render json: {status: 'some shit'}
+  def building_parameters
+    params.require(:building).permit(:name, :street_address, :city, :state, :zip_code, :landlord_id)
   end
   
 end

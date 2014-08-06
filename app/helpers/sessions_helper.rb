@@ -19,7 +19,6 @@ module SessionsHelper
   end
   
   def current_user 
-    logger.debug(">>>>>>>>>>>>>>>>>>>>> self : #{self.inspect}")
     @current_user ||= user_from_remember_token  
   end
   

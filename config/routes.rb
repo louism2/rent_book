@@ -15,7 +15,8 @@ Rails.application.routes.draw do
     resources :buildings
 
     resources :landlords
-  
+    get 'landlords/current_user' => 'landlords#show'
+    
     resources :sessions, only: [:new, :create, :destroy]
       get 'sign_in' => 'sessions#new', as: :sign_in
       delete 'sessions/destroy' => 'sessions#destroy', as: :sign_out  

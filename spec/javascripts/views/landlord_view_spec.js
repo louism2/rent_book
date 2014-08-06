@@ -44,24 +44,24 @@ describe('NewLandlordView', function(){
 			expect(landlord.attributes).toEqual(attrs);
 		});
 		
-		it('should send an ajax request if the landlord is valid', function(){
-			var server = sinon.fakeServer.create();
-			var spy = spyOn(backbone_data.Views.ShowLandlordView.prototype,'render').and.callThrough();
-			
-			var t_landlord = new backbone_data.Models.Landlord();
-			var newLandlordView = new backbone_data.Views.NewLandlordView({model: t_landlord});
-			var view = newLandlordView.render();
-			for(key in attrs){
-				view.$('#'+key).val(attrs[key]);
-			}
-			view.$('#landlord_form').submit();
-			server.requests[0].respond(
-		        200,
-		        { "Content-Type": "application/json" },
-		        JSON.stringify([{ id: 1, text: "Provide examples", done: true }])
-			 );
-			expect(spy).toHaveBeenCalled();
-		});
+		// it('should send an ajax request if the landlord is valid', function(){
+		// 			var server = sinon.fakeServer.create();
+		// 			var spy = spyOn(backbone_data.Views.ShowLandlordView.prototype,'render').and.callThrough();
+		// 			
+		// 			var t_landlord = new backbone_data.Models.Landlord();
+		// 			var newLandlordView = new backbone_data.Views.NewLandlordView({model: t_landlord});
+		// 			var view = newLandlordView.render();
+		// 			for(key in attrs){
+		// 				view.$('#'+key).val(attrs[key]);
+		// 			}
+		// 			view.$('#landlord_form').submit();
+		// 			server.requests[0].respond(
+		// 		        200,
+		// 		        { "Content-Type": "application/json" },
+		// 		        JSON.stringify([{ id: 1, text: "Provide examples", done: true }])
+		// 			 );
+		// 			expect(spy).toHaveBeenCalled();
+		// 		});
 		
 		it('should not send an ajax request if the landlord is not valid', function(){
 			var spy = spyOn(jQuery, 'ajax');

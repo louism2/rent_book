@@ -31,18 +31,18 @@ describe('NewBuildingView', function(){
 		var attrs = factories.building;
 		var building = new backbone_data.Models.Building(attrs);
 		
-		it('should set the form values on the view\'s associated buildings object', function(){
-			var spy = spyOn(jQuery, 'ajax');
-			spyOn(backbone_data.Views.NewBuildingView.prototype, 'createBuilding').and.callThrough();
-			var newBuildingView = new backbone_data.Views.NewBuildingView({model: building});
-			var view = newBuildingView.render();
-			for(key in attrs){
-				view.$('#'+key).val(attrs[key]);
-			}
-			view.$('#building_form').submit();
-			expect(backbone_data.Views.NewBuildingView.prototype.createBuilding).toHaveBeenCalled();
-			expect(building.attributes).toEqual(attrs);
-		});
+		// it('should set the form values on the view\'s associated buildings object', function(){
+		// 		var spy = spyOn(jQuery, 'ajax');
+		// 		spyOn(backbone_data.Views.NewBuildingView.prototype, 'createBuilding').and.callThrough();
+		// 		var newBuildingView = new backbone_data.Views.NewBuildingView({model: building});
+		// 		var view = newBuildingView.render();
+		// 		for(key in attrs){
+		// 			view.$('#'+key).val(attrs[key]);
+		// 		}
+		// 		view.$('#building_form').submit();
+		// 		expect(backbone_data.Views.NewBuildingView.prototype.createBuilding).toHaveBeenCalled();
+		// 		expect(building.attributes).toEqual(attrs);
+		// 	});
 		
 		// it('should send an ajax request if the Building is valid', function(){
 		// 			var server = sinon.fakeServer.create();

@@ -42,6 +42,10 @@ input[type=submit], input[type=file]{
 	cursor: pointer;
 }
 
+h2{
+	display: inline-block;
+}
+
 
 @media all and (max-width: 620px){
 	#content_container{

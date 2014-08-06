@@ -1,5 +1,7 @@
 class Landlord < ActiveRecord::Base
   
+  has_many :buildings
+  
   before_create :encrypt_password
   before_update :encrypt_password, unless: "password.blank?"
   
@@ -16,8 +18,7 @@ class Landlord < ActiveRecord::Base
                                         format: {:with => password_regex},
                                         confirmation: true      
   
-
-
+  
   def self.authenticate_with_salt(id, user_salt_from_cookie) 
     user = find_by_id(id)
     (user && user.salt == user_salt_from_cookie) ? user : nil   
