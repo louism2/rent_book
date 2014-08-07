@@ -25,6 +25,7 @@ backbone_data.Routers.ApplicationRouter = Backbone.Router.extend({
 	},
 	show_landlord: function(id,options){
 		var landlord = ns.landlord;
+		console.log(landlord);
 		var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 		$container.html(showLandlordView.render().el);
 	}

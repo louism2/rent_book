@@ -8,6 +8,8 @@ backbone_data.Views.ShowLandlordView = Backbone.View.extend({
 	},
 	render: function(){
 		this.$el.html(this.template(this.model.attributes));
+		var buildingListView = new backbone_data.Views.BuildingListView({model: ns.buildingsCollection});
+		this.el.$('#add_property_link').after(buildingListView.render().el);
 		return this
 		// build collection here
 		

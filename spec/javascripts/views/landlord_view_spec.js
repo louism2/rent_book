@@ -29,8 +29,12 @@ describe('NewLandlordView', function(){
 	describe('new landlord form submittal', function(){
 		
 		var attrs = factories.landlord;
-		var landlord = new backbone_data.Models.Landlord();
-		
+		var landlord;
+
+		beforeEach(function(){
+			landlord = new backbone_data.Models.Landlord();			
+		});
+
 		it('should set the form values on the view\'s associated landlord object', function(){
 			var spy = spyOn(jQuery, 'ajax');
 			spyOn(backbone_data.Views.NewLandlordView.prototype, 'createLandlord').and.callThrough();
@@ -44,27 +48,8 @@ describe('NewLandlordView', function(){
 			expect(landlord.attributes).toEqual(attrs);
 		});
 		
-		// it('should send an ajax request if the landlord is valid', function(){
-		// 			var server = sinon.fakeServer.create();
-		// 			var spy = spyOn(backbone_data.Views.ShowLandlordView.prototype,'render').and.callThrough();
-		// 			
-		// 			var t_landlord = new backbone_data.Models.Landlord();
-		// 			var newLandlordView = new backbone_data.Views.NewLandlordView({model: t_landlord});
-		// 			var view = newLandlordView.render();
-		// 			for(key in attrs){
-		// 				view.$('#'+key).val(attrs[key]);
-		// 			}
-		// 			view.$('#landlord_form').submit();
-		// 			server.requests[0].respond(
-		// 		        200,
-		// 		        { "Content-Type": "application/json" },
-		// 		        JSON.stringify([{ id: 1, text: "Provide examples", done: true }])
-		// 			 );
-		// 			expect(spy).toHaveBeenCalled();
-		// 		});
-		
-		it('should not send an ajax request if the landlord is not valid', function(){
-			var spy = spyOn(jQuery, 'ajax');
+		it('should display error messages if the user inputs invalid data', function(){
+			var spy = spyOn(backbone_data.Views.NewLandlordView.prototype, 'displayErrors');
 			var newLandlordView = new backbone_data.Views.NewLandlordView({model: landlord});
 			var view = newLandlordView.render();
 			for(key in attrs){
@@ -72,43 +57,62 @@ describe('NewLandlordView', function(){
 			}
 			view.$('#name').val('');
 			view.$('#landlord_form').submit();
-			expect(spy).not.toHaveBeenCalled();
+			expect(spy).toHaveBeenCalled();
 		});
 		
-	});
-	
-	describe('error messages', function(){
-		
-		//it('should not ') 
-	
-		
-	});
-
-
-});
-
-describe('ShowLandlordView', function(){
-	
-	it('should render the proper template', function(){
-		var attrs = factories.landlord;
-		var landlord = new backbone_data.Models.Landlord(attrs);
-		var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
-		expect(showLandlordView.template).toEqual(JST['landlords/show']);
-	});
-	
-	describe('conditional values in the new view', function(){
-		var attrs = factories.landlord;
-		var landlord = new backbone_data.Models.Landlord(attrs);
-		var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
-		showLandlordView.render();
-		
-		it('should display a form with the proper text_fields', function(){		
-			loadFixtures('base.html');
-			var $container = $('#content_container');
-			$container.html(showLandlordView.el);
-			expect($container.find('h1')[0].innerHTML).toEqual('Your Account');
+		describe('handling the response from the server', function(){
+			
+			var attrs = factories.landlord;
+			var landlord = new backbone_data.Models.Landlord();			
+					
+			it('should display any errors recieved from the server', function(){
+				var spy = spyOn(backbone_data.Views.NewLandlordView.prototype, 'displayErrors');
+				var newLandlordView = new backbone_data.Views.NewLandlordView({model: landlord});
+				var model = newLandlordView.model;
+				var response = {errors: {key: 'value'}};
+				newLandlordView.model.trigger('sync', model, response);
+				expect(spy).toHaveBeenCalled();
+			});
+			
+			it('should display the landlord given a response without an errors object', function(){
+				var spy = spyOn(backbone_data.Views.NewLandlordView.prototype, 'displayLandlord');
+				var newLandlordView = new backbone_data.Views.NewLandlordView({model: landlord});
+				var model = newLandlordView.model;
+				var response = {landlord: {id: 1}}
+				newLandlordView.model.trigger('sync', model, response);
+				expect(spy).toHaveBeenCalled();
+			});
+			
 		});
 		
 	});
 
 });
+
+
+//server.requests[0].respond(
+// describe('ShowLandlordView', function(){
+// 	
+// 	it('should render the proper template', function(){
+// 		var attrs = factories.landlord;
+// 		var landlord = new backbone_data.Models.Landlord(attrs);
+// 		var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
+// 		expect(showLandlordView.template).toEqual(JST['landlords/show']);
+// 	});
+// 	
+// 	describe('conditional values in the new view', function(){
+// 		var attrs = factories.landlord;
+// 		var landlord = new backbone_data.Models.Landlord(attrs);
+// 		var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
+// 		showLandlordView.render();
+// 		
+// 		it('should display a form with the proper text_fields', function(){		
+// 			loadFixtures('base.html');
+// 			var $container = $('#content_container');
+// 			$container.html(showLandlordView.el);
+// 			expect($container.find('h1')[0].innerHTML).toEqual('Your Account');
+// 		});
+// 		
+// 	});
+// 
+// });

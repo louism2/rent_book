@@ -35,9 +35,12 @@ backbone_data.Helpers.buildMessage = function(obj, property, message){
 }
 
 backbone_data.Helpers.fetchObjects = function(landlord_id){
-	console.log('fired');
 	if(!document.cookie) return;
-	$.ajax('/landlords/current_user', {async: false, headers: {"ACCEPT":'application/json'}}).done(function(data){
+	$.get('/landlords/'+landlord_id, {
+				async: false, 
+			    contentType: "application/json; charset=utf-8",
+		        dataType: "json",
+	}).done(function(data){
 		backbone_data.Helpers.setLandlord(data.landlord);
 		backbone_data.Helpers.setBuildings(data.buildings);
 	}).error(function(){

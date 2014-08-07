@@ -7,14 +7,13 @@ backbone_data.Views.NewLandlordView = Backbone.View.extend({
 		var self = this;
 		self.model.on('sync', function(model, response, options){
 			if(response.errors){
-				// render errors in view
+				self.displayErrors(response.errors);
 			}else{
 				self.displayLandlord(model, response);
 			}
 		});
 		self.model.on('invalid', function(model){
-			console.log('invalid callback');
-			// render errors in view
+			self.displayErrors(model);
 		});
 	},
 	render: function(){
@@ -29,11 +28,7 @@ backbone_data.Views.NewLandlordView = Backbone.View.extend({
 			var val = event.target[x].value;	
 			model.set(key, val);		
 		}
-		model.save(model.attributes, {error: function(res){
-			// non-200 response code
-			console.log(res);
-		}});
-
+		model.save(model.attributes);
 		return false;
 	},
 	displayLandlord: function(model, response){	
@@ -41,8 +36,6 @@ backbone_data.Views.NewLandlordView = Backbone.View.extend({
 		ns.buildingsCollection = new backbone_data.Collections.BuildingsCollection();
 		var showLandlordView = new backbone_data.Views.ShowLandlordView({model: model, response: response});
 		$container.html(showLandlordView.render().el);
-		var buildingListView = new backbone_data.Views.BuildingListView({model: ns.buildingsCollection});
-		$('#add_property_link').after(buildingListView.render().el);
 		router.navigate('/landlords/'+model.id);
 	},
 	displayErrors: function(model_object){
