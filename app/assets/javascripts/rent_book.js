@@ -28,24 +28,34 @@ Backbone.Model.prototype.readFile = function(file) {
 // allows for one line error message creation in the model validations
 backbone_data.Helpers.buildMessage = function(obj, property, message){
 	if(Array.isArray(obj.property)){
-		obj[property].push(message);
+		obj[property].push(message);	
 	}else{
 		obj[property] = [message];
 	}
 }
 
-backbone_data.Helpers.fetchObjects = function(landlord_id){
-	if(!document.cookie) return;
-	$.get('/landlords/'+landlord_id, {
-				async: false, 
-			    contentType: "application/json; charset=utf-8",
-		        dataType: "json",
-	}).done(function(data){
-		backbone_data.Helpers.setLandlord(data.landlord);
-		backbone_data.Helpers.setBuildings(data.buildings);
-	}).error(function(){
-		
-	});
+backbone_data.Helpers.fetchObjects = function(){
+	if(!document.cookie){
+		backbone_data.Helpers.setLandlord({});
+		backbone_data.Helpers.setBuildings([{}]);
+		router.navigate('');
+		router.navigate('/sign_in', {trigger: true});
+	}else{
+		$.get('/landlords/current_user', {
+					async: false, 
+				    contentType: "application/json; charset=utf-8",
+			        dataType: "json",
+		}).done(function(data){
+			backbone_data.Helpers.setLandlord(data.landlord);
+			backbone_data.Helpers.setBuildings(data.buildings);
+			var landlord = ns.landlord;
+			var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
+			$container.html(showLandlordView.render().el);
+			router.navigate('/landlords/'+landlord.id);
+		}).error(function(){
+
+		});	
+	}
 }
 
 backbone_data.Helpers.setLandlord = function(attrs){
@@ -53,10 +63,9 @@ backbone_data.Helpers.setLandlord = function(attrs){
 }
 
 backbone_data.Helpers.setBuildings = function(response){
-	var ns = window.object_namespace;
-	ns.buildingsCollection = new backbone_data.Collections.BuildingsCollection();
-	for(building in response){
-		var building = new backbone_data.Models.Building(building);
+	window.ns.buildingsCollection = new backbone_data.Collections.BuildingsCollection();
+	for(key in response){
+		var building = new backbone_data.Models.Building(response[key]);
 		ns.buildingsCollection.add(building);
 	}
 }

@@ -16,14 +16,13 @@ Rails.application.routes.draw do
 
     resources :landlords
     
-    resources :sessions, only: [:new, :create, :destroy]
-      get 'sign_in' => 'sessions#new', as: :sign_in
-      delete 'sessions/destroy' => 'sessions#destroy', as: :sign_out  
-  
   
     get '/stripe/account_authorization' => 'landlords#auth'
   
   end
+  
+  resources :sessions, only: [:new, :create, :destroy]
+  get '/landlords/current_user' => 'landlords#show'
   
   get '*path' => 'pages#home'
 

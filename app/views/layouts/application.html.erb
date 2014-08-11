@@ -10,21 +10,10 @@
 		
 	$(document).ready(function(){
 		window.$container = $('#content_container');
-		$.ajax('/landlords/'+landlord_id+'.json', { 
-					headers: {'Accept': 'text/javascript'},
-				    contentType: "application/json; charset=utf-8",
-			        dataType: "json",
-		}).done(function(data){
-			backbone_data.Helpers.setLandlord(data.landlord);
-			backbone_data.Helpers.setBuildings(data.buildings);
-			backbone_data.Helpers.fetchObjects();
-			window.ns = window.object_namespace;
-			window.router = new backbone_data.Routers.ApplicationRouter();
-			Backbone.history.start({pushState: true});
-			router.navigate(window.location.pathname, {trigger: true});
-		}).error(function(){
-
-		});
+		window.ns = window.object_namespace;
+		window.router = new backbone_data.Routers.ApplicationRouter();
+		Backbone.history.start({pushState: true, silent: true});
+		backbone_data.Helpers.fetchObjects();
 	});
 
 </script>

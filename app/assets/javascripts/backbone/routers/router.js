@@ -1,13 +1,16 @@
 backbone_data.Routers.ApplicationRouter = Backbone.Router.extend({
 	routes: {
 		'homepage':'home',
+		'sign_in':'sign_in',
 		'landlords/new':'new_landlord',
 		'landlords/:landlord_id/new_building':'new_building',
 		'landlords/:landlord_id':'show_landlord'
-
 	},
 	initialize: function(options){
-
+	},
+	sign_in: function(){
+		var signInView = new backbone_data.Views.SignInView();	
+		$container.html(signInView.render().el);
 	},
 	home: function(){
 
@@ -25,7 +28,6 @@ backbone_data.Routers.ApplicationRouter = Backbone.Router.extend({
 	},
 	show_landlord: function(id,options){
 		var landlord = ns.landlord;
-		console.log(landlord);
 		var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 		$container.html(showLandlordView.render().el);
 	}

@@ -13,6 +13,16 @@ class BuildingsController < ApplicationController
     end
   end
   
+  def show
+    
+    building = Building.includes(units: [:tenants]).find(params[:id])
+    if building.landlord_id == @current_user.id
+      render json: {building: building, tenants: building.unit}
+    else
+      
+    end
+  end
+  
 private
 
   def building_parameters

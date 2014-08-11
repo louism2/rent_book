@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :log_headers
   
   def log_headers
-    logger.debug(">>>>>>>>>>>>>>>> #{request.headers.inspect}")
+    logger.debug(">>>>>>>>>>>>>>>> #{request.headers}")
   end
   
 end

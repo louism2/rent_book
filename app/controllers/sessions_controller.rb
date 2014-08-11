@@ -8,11 +8,9 @@ class SessionsController < ApplicationController
     @landlord = Landlord.authenticate(params[:email], params[:password])
     if @landlord
       sign_in @landlord
-      flash[:success] = "Welcome Back!"
-      redirect_to @landlord
+      render json: {status: 'success', landlord: @landlord}
     else
-      flash.now[:error] = "Invalid Password or Email"
-      render 'new'
+      render json: {status: 'failure'}
     end
   end
   
