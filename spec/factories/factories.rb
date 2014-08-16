@@ -1,10 +1,25 @@
 FactoryGirl.define do
 
+    factory :unit do
+      unit_number "102"
+      building_id 17
+      monthly_rent 1500.50
+      balance 0
+    end
+    
     factory :building do
       name "The Allegro"
-      address "25 West Highland Drive"
+      street_address "25 West Highland Drive"
+      city "Seattle"
+      state "WA"
+      zip_code "98119"
+      landlord_id 1
     end
-
+    
+    factory :rental_obligation do
+      unit_id 1
+    end
+    
     factory :landlord do
       name "Louie Mancini"
       email "louiscmancini@gmail.com"
@@ -39,11 +54,6 @@ FactoryGirl.define do
       rental_obligations Array.new
     end
 
-    factory :unit do
-      unit_number "102"
-      building_id 1
-      monthly_rent 1500.50
-      tenants Array.new
-    end
+
 
 end  

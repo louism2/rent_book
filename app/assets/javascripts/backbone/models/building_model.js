@@ -13,7 +13,7 @@ backbone_data.Models.Building = Backbone.Model.extend({
 	    return {building: _.clone(this.attributes)}
 	},
 	parse: function(response){
-		return response.building;
+		return response.units;
 	},
 	validate: function(attributes){
 		var errors = {};

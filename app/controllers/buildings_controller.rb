@@ -4,9 +4,9 @@ class BuildingsController < ApplicationController
   require "spreadsheet_handler"
   
   def create
-    building = Building.create(building_parameters.merge!({landlord_id: current_user.id}))
-    if building.persisted?
-      render json: {id: building.id}
+    building = Building.new(building_parameters.merge!({landlord_id: current_user.id}))
+    if building.save
+      render json: {building: {id: building.id}}
     else
       response.status = "400"
       render json: {errors: building.errors}
@@ -14,12 +14,11 @@ class BuildingsController < ApplicationController
   end
   
   def show
-    
-    building = Building.includes(units: [:tenants]).find(params[:id])
-    if building.landlord_id == @current_user.id
-      render json: {building: building, tenants: building.unit}
+    units = Building.building_show_query(params[:id])   
+    if units.any? && units.first['landlord_id'] == current_user.id.to_s
+      render json: {units: units}
     else
-      
+      render json: {status: 'no results'}
     end
   end
   

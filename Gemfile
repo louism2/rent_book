@@ -30,6 +30,7 @@ gem 'backbone-on-rails', '~> 1.1.1.0'
 group :test, :development do
   gem "factory_girl_rails"
   gem "rspec-rails"  
+  gem "rspec-mocks"
   gem "capybara"
   gem "jasmine"
   gem 'jasmine-jquery-rails'

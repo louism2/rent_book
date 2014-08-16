@@ -34,6 +34,16 @@ backbone_data.Helpers.buildMessage = function(obj, property, message){
 	}
 }
 
+backbone_data.Helpers.testPassword = function(password){
+	var myRe = /\b(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}\b/;
+	return myRe.test(password);
+}
+
+backbone_data.Helpers.testEmail = function(email){
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(email);
+}
+
 backbone_data.Helpers.fetchObjects = function(){
 	if(!document.cookie){
 		backbone_data.Helpers.setLandlord({});
@@ -78,4 +88,6 @@ Object.size = function(obj) {
     }
     return size;
 };
+
+
 

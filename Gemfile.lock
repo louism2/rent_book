@@ -234,6 +234,7 @@ DEPENDENCIES
   pg
   rails (= 4.1.1)
   roo (~> 1.13.2)
+  rspec-mocks
   rspec-rails
   rvm-capistrano
   sass-rails (~> 4.0.3)

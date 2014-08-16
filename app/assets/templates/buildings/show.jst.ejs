@@ -1,1 +1,4 @@
 <h1>Building</h1>
+
+<%= view_helpers.select_tag('search_select',1, [{value: 'unit-number', text: 'Unit Number'}, {value: 'monthly-rent', text: 'Monthly Rent'}, {value: 'balance', text: 'Balance'}, {value: 'tenant-name', text: 'Occupant'}])%>
+<%= view_helpers.text_field_tag('search_box') %>

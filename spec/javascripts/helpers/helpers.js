@@ -24,7 +24,9 @@ function setupNamespace(length){
 factories = {
 	landlord: {name: 'Louie Mancini', email: 'louiscmancini@gmail.com', email_confirmation: 'louiscmancini@gmail.com', 
 				password: 'Music123', password_confirmation: 'Music123'},
-	building: {name: 'The Kennedy', street_address: "907 NE 45th St", city: 'Seattle', state: 'WA', zip_code: 98105}
+	building: {name: 'The Kennedy', street_address: "907 NE 45th St", city: 'Seattle', state: 'WA', zip_code: 98105},
+	tenant: {name: 'Louie Mancini', email: 'louiscmancini@gmail.com', date_of_birth: '12-07-1984', stripe_token: 'jklFDAIEad123nfddk', 
+	password: 'Music123', password_confirmation: 'Music123'}
 }
 
 window.router = new backbone_data.Routers.ApplicationRouter();

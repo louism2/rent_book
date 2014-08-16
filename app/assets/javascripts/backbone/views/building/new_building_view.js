@@ -12,6 +12,8 @@ backbone_data.Views.NewBuildingView = Backbone.View.extend({
 		self.model.on('sync', function(model, response, options){
 			if(response.errors){
 				// render errors in view
+				// if landlord_id is nil then someone tried
+				// to access the app in an unauthorized way
 			}else{
 				model.set({id: response.id});
 				console.log(model);

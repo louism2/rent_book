@@ -4,10 +4,10 @@ class ApplicationController < ActionController::Base
   
   include SessionsHelper
   
-  before_filter :log_headers
+  #before_filter :log_headers
   
-  def log_headers
-    logger.debug(">>>>>>>>>>>>>>>> #{request.headers}")
-  end
+  # def log_headers
+  #   logger.debug(">>>>>>>>>>>>>>>> #{request.headers}")
+  # end
   
 end

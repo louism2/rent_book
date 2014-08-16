@@ -16,6 +16,8 @@ backbone_data.Models.Landlord = Backbone.Model.extend({
 	validate: function(attributes){
 		var errors = {};
 		var buildMessage = backbone_data.Helpers.buildMessage;
+		var testPassword = backbone_data.Helpers.testPassword;
+		var testEmail    = backbone_data.Helpers.testEmail;	
 		if(attributes.name.length > 50){
 			buildMessage(errors,'name',"your name can't be more than 50 characters");
 		}
@@ -26,8 +28,7 @@ backbone_data.Models.Landlord = Backbone.Model.extend({
 			buildMessage(errors,'email',"your account must have an email");
 		}
 		if(this.hasChanged("email")){
-			var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			if(!re.test(attributes.email)){
+			if(!testEmail(attributes.email)){
 				buildMessage(errors,'email',"your account must have an email in the proper format");
 			}
 			if(attributes.email_confirmation != attributes.email){
@@ -35,8 +36,7 @@ backbone_data.Models.Landlord = Backbone.Model.extend({
 			}	
 		}
 		if(this.hasChanged("password")){
-			var re = /\A(?=.*\d)(?=.*[a-zA-Z]).{8,}\Z/i;
-			if(!re.test(attributes.password)){
+			if(!testPassword(attributes.password)){
 				buildMessage(errors,'password',"your account must have a password in the proper format");
 			}
 			if(attributes.password_confirmation != attributes.password){

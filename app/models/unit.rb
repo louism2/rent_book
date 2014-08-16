@@ -4,6 +4,8 @@ class Unit < ActiveRecord::Base
   
   validates :monthly_rent,  presence: true
   
-  validates :unit_number,    presence: true
+  validates :unit_number,   presence: true
+  
+  validates :balance,       numericality: true
   
 end

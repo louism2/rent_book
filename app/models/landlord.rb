@@ -12,7 +12,8 @@ class Landlord < ActiveRecord::Base
   
   validates :name,                      presence: true
   
-  validates :email,                     presence: true
+  validates :email,                     presence: true,
+                                        confirmation: true
   
   validates :password,                  allow_blank: true,
                                         format: {:with => password_regex},

@@ -26,7 +26,7 @@ backbone_data.Views.ShowLandlordView = Backbone.View.extend({
 		
 		if(collection.length){
 			for(x in collection){
-				$table.append(JST['partials/tr_building_list']({name: collection[x].get('name'), id: collection[x].get('id')}));
+				$table.append(JST['landlords/_building_list']({name: collection[x].get('name'), id: collection[x].get('id')}));
 			}	
 		}else{
 			$table.append('<tr><th>No Properties In System</th></tr>');
@@ -40,6 +40,7 @@ backbone_data.Views.ShowLandlordView = Backbone.View.extend({
 		var landlord_id = this.model.id;
 		var showBuildingView = new backbone_data.Views.ShowBuildingView({model: building});
 		$container.html(showBuildingView.render().el);
+		//showBuildingView.fetchBuildingData();
 		router.navigate('landlords/'+landlord_id+'/buildings/'+building.id);
 		return false;
 	}
