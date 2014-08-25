@@ -11,3 +11,35 @@
 	left: 2%;
 	font-size: 2em;
 }
+
+#header_nav span:last-child{
+	float: right;
+	margin-right: 2%;
+	font-size: 2em;
+}
+
+/***  Styling for all tables  ***/
+table{
+	table-layout: fixed;
+}
+
+table tr{
+	word-wrap: break-word;
+}
+
+td{
+	text-align: center;
+	min-width: 72px;
+}
+
+
+
+@media all and (max-width: 1025px){
+	#header_nav span:last-child{
+		float:right;
+	}
+}
+
+@media all and (max-width: 600px){
+	
+}

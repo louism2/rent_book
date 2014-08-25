@@ -1,5 +1,6 @@
 backbone_data.Views.HeaderNavigationView = Backbone.View.extend({
 	tagName: 'span',
+	id: 'header_nav_links',
 	template: JST['sessions/_header_nav'],
 	events: {
 		

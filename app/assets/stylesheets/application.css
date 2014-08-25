@@ -47,7 +47,9 @@ h2{
 }
 
 
-@media all and (max-width: 620px){
+
+
+@media all and (max-width: 1025px){
 	#content_container{
 		
 	}
@@ -58,4 +60,8 @@ h2{
 		display:block;
 	}
 }
+
+@media all and (max-width: 600px){
+	
+}	
 
