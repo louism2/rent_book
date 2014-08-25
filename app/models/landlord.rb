@@ -28,7 +28,7 @@ class Landlord < ActiveRecord::Base
   def self.authenticate(email, submitted_password) 
     user = Landlord.where(email: email).first
     return nil if user.nil?
-    return user if user.has_password?(submitted_password)  
+    user.has_password?(submitted_password) ? user : false
   end
 
   def has_password?(submitted_password) 

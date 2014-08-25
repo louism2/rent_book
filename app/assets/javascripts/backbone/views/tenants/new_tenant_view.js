@@ -6,7 +6,6 @@ backbone_data.Views.NewTenantView = Backbone.View.extend({
 	initialize: function(){
 		var self = this;
 		self.model.on('sync', function(model, response, options){
-			console.log('sync called');
 			if(response.errors){	
 				// render errors in view
 				// if landlord_id is nil then someone tried

@@ -19,8 +19,7 @@ backbone_data.Views.SignInView = Backbone.View.extend({
 	sendSignInRequest: function(email, password){
 		$.ajax('/sessions',{
 				type: 'POST',
-				contentType: "text/javascript",
-				data: JSON.stringify({email: email, password: password})
+				data: {email: email, password: password}
 		}).done(function(data){
 			console.log(data);
 		}).fail(function(jqXHR, textStatus, errorThrown){

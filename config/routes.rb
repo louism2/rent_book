@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
     resources :landlords
     
-  
     get '/stripe/account_authorization' => 'landlords#auth'
   
   end
