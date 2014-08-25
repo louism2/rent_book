@@ -16,7 +16,6 @@ backbone_data.Views.NewBuildingView = Backbone.View.extend({
 				// to access the app in an unauthorized way
 			}else{
 				model.set({id: response.id});
-				console.log(model);
 				ns.buildingsCollection.add(model);
 				self.displayBuilding(model);
 			}
@@ -39,11 +38,10 @@ backbone_data.Views.NewBuildingView = Backbone.View.extend({
 		return false;
 	},
 	displayBuilding: function(model){	
-		console.log(model);	
 		var landlord_id = ns.landlord.id;
-		// var showBuildingdView = new backbone_data.Views.ShowBuildingView({model: model});
-		// $container.html(showBuildingView.render().el);
-		// router.navigate('landlords/'+landlord_id+'/buildings/'+model.id);	
+		var showBuildingView = new backbone_data.Views.ShowBuildingView({model: model});
+		$container.html(showBuildingView.render().el);
+		router.navigate('landlords/'+landlord_id+'/buildings/'+model.id);	
 	},
 	displayErrors: function(model_object){
 

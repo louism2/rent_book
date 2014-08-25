@@ -3,7 +3,7 @@ backbone_data.Views.UnitsListView = Backbone.View.extend({
 	template: JST['units/units_list_view'],
 	unitsList: null,
 	events: {
-		'click th':'sortTable'
+		//'click th':'sortTable'
 	},
 	render: function(){
 		this.$el.html(this.template());
@@ -18,7 +18,35 @@ backbone_data.Views.UnitsListView = Backbone.View.extend({
 		this.unitsList = this.$el.find('tr:not(:first)');
 		return this;
 	},
-	sortTable: function(e){
-		
-	}
+	// sortTable: function(e){
+	// 	var unitsList = this.unitsList;
+	// 	//console.log(unitsList);
+	// 	var len = this.unitsList.length;
+	// 	var field = e.currentTarget.dataset.value;
+	// 	this.sortLoop(unitsList, len, field);
+	// 	
+	// },
+	// sortLoop: function(unitsList, len, field){
+	// 	var swap = false
+	// 	for(var i = 0; i < len; i++){
+	// 		if(i < len -2){
+	// 			var $first = $(unitsList[i]);
+	// 			var $second = $(unitsList[i+1]);		
+	// 			var f_val = $first.data().searchTerm[field];			
+	// 			var s_val = $second.data().searchTerm[field];
+	// 			console.log('f_val : '+f_val);
+	// 			console.log('s_val : '+s_val)				
+	// 			if(f_val > s_val){
+	// 				swap = true;
+	// 				unitsList[i] = $second.html();
+	// 				unitsList[i+1] = $first.html();
+	// 			}
+	// 		}
+	// 	}
+	// 	if(swap){
+	// 		this.sortLoop(unitsList)
+	// 	}else{
+	// 
+	// 	}
+	// }
 });

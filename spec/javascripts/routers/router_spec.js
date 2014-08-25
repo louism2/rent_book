@@ -35,6 +35,11 @@ describe('Application Router', function(){
 			expect(router.routes['landlords/:landlord_id']).toEqual('show_landlord');
 			testRouteTriggerOnUrlMatch(router, 'landlords/1', 'show_landlord');	
 		});
+		
+		it("should match 'tenants/new' to the 'new_tenant' function", function(){
+			expect(router.routes['tenants/new']).toEqual('new_tenant');
+			testRouteTriggerOnUrlMatch(router, 'tenants/new', 'new_tenant');	
+		});
 	
 	});
 	
@@ -47,9 +52,9 @@ describe('Application Router', function(){
 		});
 		
 		it('should render the "home" template for the "homepage" url', function(){
-			// var viewSpy = spyOn(backbone_data.Views.NewLandlordView.prototype,'render').and.callThrough();
-			// router.navigate('landlords/new',{trigger: true});
-			// expect(viewSpy).toHaveBeenCalled();
+			var viewSpy = spyOn(backbone_data.Views.NewLandlordView.prototype,'render').and.callThrough();
+			router.navigate('landlords/new',{trigger: true});
+			expect(viewSpy).toHaveBeenCalled();
 		});
 		
 		it('should render the "new" template for the "landlords/:id/new_building" url', function(){
@@ -61,6 +66,12 @@ describe('Application Router', function(){
 		it('should render the "show" template for the "landlords/:id" url', function(){
 			var viewSpy = spyOn(backbone_data.Views.ShowLandlordView.prototype,'render').and.callThrough();
 			router.navigate('landlords/1',{trigger: true});
+			expect(viewSpy).toHaveBeenCalled();
+		});
+		
+		it('should render the "new" template for the "tenants/new" url', function(){
+			var viewSpy = spyOn(backbone_data.Views.NewTenantView.prototype,'render').and.callThrough();
+			router.navigate('tenants/new',{trigger: true});
 			expect(viewSpy).toHaveBeenCalled();
 		});
 		

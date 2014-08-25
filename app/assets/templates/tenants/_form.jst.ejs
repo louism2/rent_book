@@ -1,0 +1,15 @@
+<%= view_helpers.form_tag('#',{method: 'POST', id: 'tenant_form', multipart: true}) %>
+<label>Name</label>
+<%= view_helpers.text_field_tag('name', name) %>
+<label>Email</label>
+<%= view_helpers.text_field_tag('email', email) %>
+<label>Email Confirmation</label>
+<%= view_helpers.text_field_tag('email_confirmation', email_confirmation) %>
+<label>Date of Birth</label>
+<%= view_helpers.text_field_tag('date_of_birth', date_of_birth) %>	
+<label>Password</label>
+<%= view_helpers.text_field_tag('password', password) %>
+<label>Password Confirmation</label>
+<%= view_helpers.text_field_tag('password_confirmation', password_confirmation) %>
+<%= view_helpers.submit_tag('Create Account', {id: 'create_tenant', class: 'green_submit_button'}) %>
+<%= view_helpers.end_form_tag %>

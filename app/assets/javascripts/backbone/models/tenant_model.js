@@ -2,9 +2,19 @@ backbone_data.Models.Tenant = Backbone.Model.extend({
 	defaults: {
 		name: '',
 		email: '',
+		email_confirmation: '',
 		date_of_birth: '',
-		stripe_token: '',
-		password: ''
+		password: '',
+		password_confirmation: ''
+	},
+	initialize: function(attributes, options){
+		this.url = this.id ? '/tenants/'+this.id : '/tenants'; 	
+	},
+	toJSON: function() {
+	    return {tenant: _.clone(this.attributes)}
+	},
+	parse: function(response){
+		return response.tenant;
 	},
 	validate: function(attributes){
 		var errors = {};

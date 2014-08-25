@@ -16,9 +16,13 @@ backbone_data.Views.ShowBuildingView = Backbone.View.extend({
 		var self = this;
 		var units = new backbone_data.Collections.UnitsCollection([], {building_id: this.model.id})
 		units.fetch({success: function(){
-			var unitsListView = new backbone_data.Views.UnitsListView({model: units});
-			self.$el.append(unitsListView.render().el);
-			self.unitsList = self.$el.find('table tr:not(:first)');
+			if(units.length){
+				var unitsListView = new backbone_data.Views.UnitsListView({model: units});
+				self.$el.append(unitsListView.render().el);
+				this.unitsList = unitsListView.unitsList;
+			}else{
+				self.$el.append('<p id="no_units_message">This building has no units to display</p>');		
+			}
 		},
 		error: function(){
 			

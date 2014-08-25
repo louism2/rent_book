@@ -32,14 +32,18 @@ describe('NewBuildingView', function(){
 		var building = new backbone_data.Models.Building(attrs);
 		
 		it('should set the form values on the view\'s associated buildings object', function(){
+			delete attrs['id'];
 			var spy = spyOn(jQuery, 'ajax');
 			spyOn(backbone_data.Views.NewBuildingView.prototype, 'createBuilding').and.callThrough();
+			
 			var newBuildingView = new backbone_data.Views.NewBuildingView({model: building});
 			var view = newBuildingView.render();
+			
 			for(key in attrs){
 				view.$('#'+key).val(attrs[key]);
 			}
 			view.$('#building_form').submit();
+			expect(spy).toHaveBeenCalled();
 			expect(backbone_data.Views.NewBuildingView.prototype.createBuilding).toHaveBeenCalled();
 			expect(building.attributes).toEqual(attrs);
 		});
@@ -58,14 +62,15 @@ describe('NewBuildingView', function(){
 			server.requests[0].respond(
 		        200,
 		        { "Content-Type": "application/json" },
-		        JSON.stringify([{ id: 1, text: "Provide examples", done: true }])
+		        JSON.stringify([{ building: {id: 1} }])
 			 );
+			server.restore();
 			expect(spy).toHaveBeenCalled();
 		});
 		
 		it('should not send an ajax request if the Building is not valid', function(){
 			var spy = spyOn(jQuery, 'ajax');
-			var newBuildingView = new backbone_data.Views.NewBuildingView({model: Building});
+			var newBuildingView = new backbone_data.Views.NewBuildingView({model: building});
 			var view = newBuildingView.render();
 			for(key in attrs){
 				view.$('#'+key).val(attrs[key]);
@@ -105,17 +110,32 @@ describe('ShowBuildingView', function(){
 			var server = sinon.fakeServer.create();
 			showBuildingView.render();
 			
-			server.requests[0].respond(200, { "Content-Type": "application/json" }, 
-			JSON.stringify({units: [{landlord_id: 1, id: 2, unit_number: 101, monthly_rent: 1200 }, 
-									{landlord_id: 1, id: 2, unit_number: 101, monthly_rent: 1200 }
-						   ]});
-			);	
-			expect(showBuildingView.$el.)
+			server.requests[0].respond(
+				200, 
+				{ "Content-Type": "application/json" }, 
+				JSON.stringify({units: [{landlord_id: 1, unit_id: 2, unit_number: 101, monthly_rent: 1200, balance: 0, tenant_id: 1, name: 'Louie Mancini'}, 
+									    {landlord_id: 1, unit_id: 2, unit_number: 101, monthly_rent: 1200, balance: 0, tenant_id: 1, name: 'Louie Mancini'}
+						   		   	   ]
+						      })
+			);		
+			expect(showBuildingView.$el.find('tr').length).toBe(3);
+			server.restore();
+		}); //close it block
+		
+		it('should display a "no units" message if there are none', function(){
+			var server = sinon.fakeServer.create();
+			showBuildingView.render();
 			
-			
+			server.requests[0].respond(
+				200, 
+				{ "Content-Type": "application/json" }, 
+				JSON.stringify({status: 'no results'})
+			);		
+			expect(showBuildingView.$el.find('#no_units_message').length).toBe(1)
+			server.restore();
 		});
 
-	});
+	}); // close describe
 	
 });
 

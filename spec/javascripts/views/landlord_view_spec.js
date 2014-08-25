@@ -97,7 +97,7 @@ describe('ShowLandlordView', function(){
 	});
 	
 	describe('conditional values in the new view', function(){
-
+		
 		describe('the list of properties', function(){
 			
 			it('should display list of properties if the landlord has any', function(){		
@@ -139,16 +139,18 @@ describe('ShowLandlordView', function(){
 		
 		afterEach(function(){
 			router.navigate('');
-		})
+		});
 		
 		it('should display the building show page if a building link is clicked on',function(){
 			$container.html(showLandlordView.el);
-			var viewSpy = spyOn(backbone_data.Views.ShowBuildingView.prototype, 'render');
+			var viewSpy = spyOn(backbone_data.Views.ShowBuildingView.prototype, 'render').and.callThrough();
+			var fetchSpy = spyOn(backbone_data.Views.ShowBuildingView.prototype, 'fetchBuildingData');
 			var $link = $container.find('.building_link');
 			expect($link.length).toEqual(2);
 			expect($link).toBeInDOM();
-			$link[0].click('#building_link');
+			$link[0].click('.building_link');
 			expect(viewSpy).toHaveBeenCalled();
+			expect(fetchSpy);
 		});
 		
 	});
