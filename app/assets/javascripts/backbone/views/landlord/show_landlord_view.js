@@ -40,7 +40,6 @@ backbone_data.Views.ShowLandlordView = Backbone.View.extend({
 		var landlord_id = this.model.id;
 		var showBuildingView = new backbone_data.Views.ShowBuildingView({model: building});
 		$container.html(showBuildingView.render().el);
-		showBuildingView.fetchBuildingData();
 		router.navigate('landlords/'+landlord_id+'/buildings/'+building.id);
 		return false;
 	}

@@ -13,13 +13,13 @@
 		window.ns = window.object_namespace;
 		window.router = new backbone_data.Routers.ApplicationRouter();
 		Backbone.history.start({pushState: true, silent: true});
-		backbone_data.Helpers.fetchObjects();
+		backbone_data.Helpers.initializeUser();
 	});
 
 </script>
 <body>
 	<div id='header_nav'>
-		<span>RB</span>
+		<span>RentBook</span>
 	</div>	
 	<div id='content_container'>
 		

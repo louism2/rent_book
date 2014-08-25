@@ -23,22 +23,22 @@ describe('NewTenantView', function(){
 		var attrs = factories.tenant;
 		delete attrs['stripe_token'];
 		
-		// it('should set the form values on the view\'s associated tenant object', function(){
-		// 	var tenant = new backbone_data.Models.Tenant();
-		// 	var spy = spyOn(jQuery, 'ajax');
-		// 	spyOn(backbone_data.Views.NewTenantView.prototype, 'createTenant').and.callThrough();
-		// 	
-		// 	var newTenantView = new backbone_data.Views.NewTenantView({model: tenant});
-		// 	var view = newTenantView.render();
-		// 	
-		// 	for(key in attrs){
-		// 		view.$('#'+key).val(attrs[key]);
-		// 	}
-		// 	view.$('#tenant_form').submit();
-		// 	expect(spy).toHaveBeenCalled();
-		// 	expect(backbone_data.Views.NewTenantView.prototype.createTenant).toHaveBeenCalled();
-		// 	expect(view.model.attributes).toEqual(attrs);
-		// });
+		it('should set the form values on the view\'s associated tenant object', function(){
+			var tenant = new backbone_data.Models.Tenant();
+			var spy = spyOn(jQuery, 'ajax');
+			spyOn(backbone_data.Views.NewTenantView.prototype, 'createTenant').and.callThrough();
+			
+			var newTenantView = new backbone_data.Views.NewTenantView({model: tenant});
+			var view = newTenantView.render();
+			
+			for(key in attrs){
+				view.$('#'+key).val(attrs[key]);
+			}
+			view.$('#tenant_form').submit();
+			expect(spy).toHaveBeenCalled();
+			expect(backbone_data.Views.NewTenantView.prototype.createTenant).toHaveBeenCalled();
+			expect(view.model.attributes).toEqual(attrs);
+		});
 		
 		it('should send an ajax request if the tenant is valid', function(){
 			var viewSpy = spyOn(backbone_data.Views.ShowTenantView.prototype,'render');
@@ -63,17 +63,17 @@ describe('NewTenantView', function(){
 			
 		});
 		
-		// it('should not send an ajax request if the tenant is not valid', function(){
-		// 	var spy = spyOn(jQuery, 'ajax');
-		// 	var newtenantView = new backbone_data.Views.NewTenantView({model: tenant});
-		// 	var view = newTenantView.render();
-		// 	for(key in attrs){
-		// 		view.$('#'+key).val(attrs[key]);
-		// 	}
-		// 	view.$('#name').val('');
-		// 	view.$('#tenant_form').submit();
-		// 	expect(spy).not.toHaveBeenCalled();
-		// });
+		it('should not send an ajax request if the tenant is not valid', function(){
+			var spy = spyOn(jQuery, 'ajax');
+			var newtenantView = new backbone_data.Views.NewTenantView({model: tenant});
+			var view = newTenantView.render();
+			for(key in attrs){
+				view.$('#'+key).val(attrs[key]);
+			}
+			view.$('#name').val('');
+			view.$('#tenant_form').submit();
+			expect(spy).not.toHaveBeenCalled();
+		});
 		
 	});
 	

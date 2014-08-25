@@ -44,8 +44,12 @@ backbone_data.Helpers.testEmail = function(email){
 	return re.test(email);
 }
 
-backbone_data.Helpers.fetchObjects = function(){
+backbone_data.Helpers.initializeUser = function(){
+	var $header = $('#header_nav');
+	var headerNavigationView = new backbone_data.Views.HeaderNavigationView({attributes: {}});
 	if(!document.cookie){
+		headerNavigationView.attributes.signed_in = false;
+		$header.append(headerNavigationView.render().$el);
 		backbone_data.Helpers.setLandlord({});
 		backbone_data.Helpers.setBuildings([{}]);
 		router.navigate('');
@@ -65,6 +69,8 @@ backbone_data.Helpers.fetchObjects = function(){
 		}).error(function(){
 
 		});	
+		headerNavigationView.attributes.signed_in = true;
+		$header.append(headerNavigationView.render().$el);
 	}
 }
 
