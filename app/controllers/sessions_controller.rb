@@ -17,7 +17,8 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
     flash[:success] = "You successfully signed out!"
-    redirect_to sign_in_path()
+    # JS in the template is redirecting to sign in page within the backbone app
+    redirect_to '/homepage'
   end
   
 end

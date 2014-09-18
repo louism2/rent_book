@@ -105,8 +105,8 @@ describe('ShowLandlordView', function(){
 				var landlord = ns.landlord
 				var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 				showLandlordView.render();
-				expect(showLandlordView.$el.find('table tr').length).toEqual(2);
-				expect(showLandlordView.$el.find('table tr:last td a').html()).toEqual('The Kennedy');
+				expect(showLandlordView.$el.find('ul li').length).toEqual(2);
+				expect(showLandlordView.$el.find('ul li:last a').html()).toEqual('The Kennedy');
 			});
 			
 			it('should display a message letting the user no that they have no buildings in the system', function(){
@@ -114,8 +114,8 @@ describe('ShowLandlordView', function(){
 				var landlord = ns.landlord
 				var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 				showLandlordView.render();
-				expect(showLandlordView.$el.find('table tr').length).toEqual(1);
-				expect(showLandlordView.$el.find('table tr:first th').html()).toEqual('No Properties In System');
+				expect(showLandlordView.$el.find('ul li').length).toEqual(1);
+				expect(showLandlordView.$el.find('ul li').html()).toEqual('No Properties In System');
 			});
 			
 		});

@@ -34,7 +34,7 @@ describe BuildingsController do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(landlord)
       get :show, id: building.id
       expect(JSON.parse(response.body)['units'].length).to equal(2)
-      expect(JSON.parse(response.body)['units'][0].keys).to eql(['landlord_id','id','unit_number','balance','monthly_rent'])
+      expect(JSON.parse(response.body)['units'][0].keys).to eql(["landlord_id", "unit_id", "unit_number", "balance", "monthly_rent", "tenant_id", "name"])
     end
     
     it 'should return no results if the list of units is empty' do

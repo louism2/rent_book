@@ -21,6 +21,8 @@ class Landlord < ActiveRecord::Base
   
   
   def self.authenticate_with_salt(id, user_salt_from_cookie) 
+    logger.debug(">>>>>>>> id : #{id}")
+    logger.debug(">>>>>>>> salt : #{user_salt_from_cookie}")    
     user = find_by_id(id)
     (user && user.salt == user_salt_from_cookie) ? user : nil   
   end

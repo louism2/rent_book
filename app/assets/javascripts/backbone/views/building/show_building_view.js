@@ -5,7 +5,6 @@ backbone_data.Views.ShowBuildingView = Backbone.View.extend({
 	},
 	initialize: function(){
 		this.unitsCollection = null;
-		this.tenantsCollection = null;
 	},
 	render: function(){
 		this.$el.html(this.template(this.model.attributes));
@@ -14,10 +13,10 @@ backbone_data.Views.ShowBuildingView = Backbone.View.extend({
 	},
 	fetchBuildingData: function(){
 		var self = this;
-		var units = new backbone_data.Collections.UnitsCollection([], {building_id: this.model.id})
-		units.fetch({success: function(){
-			if(units.length){
-				var unitsListView = new backbone_data.Views.UnitsListView({model: units});
+		var unitsList = new backbone_data.Collections.UnitsCollection([], {building_id: this.model.id})
+		unitsList.fetch({success: function(){
+			if(unitsList.length){
+				var unitsListView = new backbone_data.Views.UnitsListView({collection: unitsList});
 				self.$el.append(unitsListView.render().el);
 				this.unitsList = unitsListView.unitsList;
 			}else{

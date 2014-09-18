@@ -22,17 +22,17 @@ backbone_data.Views.ShowLandlordView = Backbone.View.extend({
 	},
 	drawPropertyList: function(){
 		var collection = ns.buildingsCollection.models;
-		var $table = $('<table></table>');
+		var $list = $('<ul></ul>');
 		
 		if(collection.length){
 			for(x in collection){
-				$table.append(JST['landlords/_building_list']({name: collection[x].get('name'), id: collection[x].get('id')}));
+				$list.append(JST['landlords/_building_list']({name: collection[x].get('name'), id: collection[x].get('id')}));
 			}	
 		}else{
-			$table.append('<tr><th>No Properties In System</th></tr>');
+			$list.append('<li>No Properties In System</li>');
 		}
 		
-		this.$el.find('#add_property_link').after($table);
+		this.$el.find('#add_property_link').after($list);
 	},
 	showBuilding: function(e){
 		var $link = $(e.currentTarget);

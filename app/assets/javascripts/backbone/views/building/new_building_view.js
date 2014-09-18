@@ -21,7 +21,7 @@ backbone_data.Views.NewBuildingView = Backbone.View.extend({
 			}
 		});
 		self.model.on('invalid', function(model){
-			console.log('invalid callback');
+			// console.log('invalid callback');
 			// render errors in view
 		});
 	},

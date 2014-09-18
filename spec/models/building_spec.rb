@@ -100,7 +100,7 @@ describe Building do
         expect(building.errors[:zip_code]).to_not be_blank
       end        
       
-    end
+  end
   
   describe "class methods" do
     
@@ -112,19 +112,11 @@ describe Building do
       it "should produce the expected output" do
         res = Building.building_show_query(building.id)
         expect(res.num_tuples).to equal(2)
-        expect(res[0].keys).to eql(['landlord_id','id','unit_number','balance','monthly_rent'])
+        expect(res[0].keys).to eql(["landlord_id", "unit_id", "unit_number", "balance", "monthly_rent", "tenant_id", "name"])
       end
     
     end
   
-  
   end
-  
-  
-  
-  
-  
-  
-  
   
 end

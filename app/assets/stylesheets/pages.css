@@ -18,19 +18,6 @@
 	font-size: 2em;
 }
 
-/***  Styling for all tables  ***/
-table{
-	table-layout: fixed;
-}
-
-table tr{
-	word-wrap: break-word;
-}
-
-td{
-	text-align: center;
-	min-width: 72px;
-}
 
 
 

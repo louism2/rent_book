@@ -107,14 +107,18 @@ describe('ShowBuildingView', function(){
 	describe('conditional_value in the view', function(){
 		
 		it('should display a list of units for the building if there are any', function(){
+			var attrs = factories.building; attrs.id = 1;
+			var building = new backbone_data.Models.Building(attrs);
+			var showBuildingView = new backbone_data.Views.ShowBuildingView({model: building});
+		
 			var server = sinon.fakeServer.create();
 			showBuildingView.render();
-			
+		
 			server.requests[0].respond(
 				200, 
 				{ "Content-Type": "application/json" }, 
 				JSON.stringify({units: [{landlord_id: 1, unit_id: 2, unit_number: 101, monthly_rent: 1200, balance: 0, tenant_id: 1, name: 'Louie Mancini'}, 
-									    {landlord_id: 1, unit_id: 2, unit_number: 101, monthly_rent: 1200, balance: 0, tenant_id: 1, name: 'Louie Mancini'}
+									    {landlord_id: 1, unit_id: 3, unit_number: 102, monthly_rent: 1200, balance: 0, tenant_id: 1, name: 'Louie Mancini'}
 						   		   	   ]
 						      })
 			);		

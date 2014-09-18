@@ -11,5 +11,12 @@ describe('the header navigation', function(){
 		view.render();
 		expect(view.$el.find('#sign_out_link').length).toBe(1);
 	});
+	
+	it('should sign the user out and redirect them to the homepage', function(){
+		var spy = spyOn(backbone_data.Views.HeaderNavigationView.prototype,'').and.callThrough();
+		var view = new backbone_data.Views.HeaderNavigationView({ attributes: {signed_in: true} });
+		view.render();
+	
+	});
 
 });

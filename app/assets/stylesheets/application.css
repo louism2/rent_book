@@ -24,8 +24,12 @@ body{
 
 input[type=text]{
 	width: 12em;
-	font-size: 1em;
+	font-size: .8em;
 	display: block;
+}
+
+select{
+	font-size: 2em;
 }
 
 input[type=submit], input[type=file]{
@@ -48,19 +52,61 @@ h2{
 
 
 
+/***  Styling for all tables  ***/
+table{
+	margin-top: 10px;
+	font-size: 1.2em;
+	table-layout: fixed;
+	border-collapse:collapse;
+	border: 1px solid #E5E5E5;
+}
 
+th{
+	background-color: rgba(70,130,180,0.4);
+	padding: 0px 2px 0px 2px;
+}
+
+tr{
+	word-wrap: break-word;
+	cursor: pointer;
+}
+
+tr:nth-child(odd) :not(th){
+	background-color: #E8E8E8;
+}
+
+td{
+	text-align: center;
+	min-width: 72px;
+}
+
+
+
+/***  Style for links  ***/
+a, a:link, a:hover, a:visited, a:active {text-decoration: none; color: blue;}
+
+
+/***  Styling for lists  ***/
+ul{
+    list-style-type: none;
+}
+
+
+
+/***  CSS for screens 600 - 1025 in width  ***/
 @media all and (max-width: 1025px){
-	#content_container{
-		
-	}
 	
 	input[type=text]{
 		width: 12em;
 		font-size: 1.2em;
 		display:block;
 	}
+	
 }
 
+
+
+/***  CSS for screens 0-600 in width  ***/
 @media all and (max-width: 600px){
 	
 }	

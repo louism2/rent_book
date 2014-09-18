@@ -1,5 +1,5 @@
 <% if(signed_in){ %>
-	<%= view_helpers.link_to('sign out', '#', {id:'sign_out_link'}) %>
+	<%= view_helpers.link_to('sign out', '/sessions/1', {id:'sign_out_link', 'data-method': 'delete'}) %>
 <% }else{ %>
 	<%= view_helpers.link_to('sign in', '#', {id:'sign_in_link'}) %>
 <% } %>	
