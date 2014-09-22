@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140811165535) do
+ActiveRecord::Schema.define(version: 20140919021110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,12 +69,14 @@ ActiveRecord::Schema.define(version: 20140811165535) do
   end
 
   create_table "tenants", force: true do |t|
-    t.string   "name",          limit: 50
-    t.string   "email",         limit: 70
+    t.string   "name",               limit: 50
+    t.string   "email",              limit: 70
     t.date     "date_of_birth"
-    t.string   "stripe_token",  limit: 50
+    t.string   "stripe_token",       limit: 50
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "salt"
+    t.string   "encrypted_password"
   end
 
   create_table "units", force: true do |t|

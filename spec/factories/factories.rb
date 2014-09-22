@@ -50,8 +50,9 @@ FactoryGirl.define do
       name "Louie Mancini"
       email "louiscmancini@gmail.com"
       date_of_birth Date.new(1984,12,7)
+      password "Test1234"
+      password_confirmation "Test1234"      
       stripe_token ""
-      rental_obligations Array.new
     end
 
 

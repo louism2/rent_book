@@ -1,5 +1,8 @@
 class Landlord < ActiveRecord::Base
   
+  extend SessionsHelper
+  include SessionsHelper
+  
   has_many :buildings
   
   before_create :encrypt_password
@@ -20,22 +23,7 @@ class Landlord < ActiveRecord::Base
                                         confirmation: true      
   
   
-  def self.authenticate_with_salt(id, user_salt_from_cookie) 
-    logger.debug(">>>>>>>> id : #{id}")
-    logger.debug(">>>>>>>> salt : #{user_salt_from_cookie}")    
-    user = find_by_id(id)
-    (user && user.salt == user_salt_from_cookie) ? user : nil   
-  end
 
-  def self.authenticate(email, submitted_password) 
-    user = Landlord.where(email: email).first
-    return nil if user.nil?
-    user.has_password?(submitted_password) ? user : false
-  end
-
-  def has_password?(submitted_password) 
-    encrypted_password == encrypt(submitted_password) 
-  end
 
 private 
 

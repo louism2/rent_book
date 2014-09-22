@@ -5,10 +5,13 @@ class SessionsController < ApplicationController
   end
   
   def create
-    @landlord = Landlord.authenticate(params[:email], params[:password])
-    if @landlord
-      sign_in @landlord
-      render json: {status: 'success', landlord: @landlord}
+    constant = params[:identity].constantize
+    @user = constant.authenticate(params[:email], params[:password])
+    if @user
+      sign_in @user
+      response = {status: 'success'}
+      response[params[:identity].downcase] = @user
+      render json: response
     else
       render json: {status: 'failure'}
     end

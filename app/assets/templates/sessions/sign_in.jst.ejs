@@ -1,8 +1,10 @@
 <h1>Sign In</h1><%= view_helpers.link_to('create an account', '#', {id: 'create_account_link'}) %>
+<%= view_helpers.link_to('Sign in as a landlord', '#', {class: 'toggle_sign_in_form', 'data-id':'landlord'}) %>
 <%= view_helpers.form_tag('#',{method: 'POST', id: 'sign_in_form'}) %>
 	<label>Email</label>
 	<%= view_helpers.text_field_tag('email') %>
 	<label>Password</label>
 	<%= view_helpers.text_field_tag('password') %>	
+	<%= view_helpers.hidden_field_tag('identity', 'tenant') %>		
 	<%= view_helpers.submit_tag('Sign In', {id: 'sign_in_submit'})%>		
 <% view_helpers.end_form_tag %>

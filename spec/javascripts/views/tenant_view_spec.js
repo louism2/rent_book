@@ -82,4 +82,20 @@ describe('NewTenantView', function(){
 		//it('should not ') 
 	});
 	
+	describe('tenant show page', function(){
+		
+		it('should display the Tenant\'s general info', function(){
+			var tenant = new backbone_data.Models.Tenant(factories.tenant);
+			var view = new backbone_data.Views.TenantShowView({tenant: tenant});
+			view.render();
+			var header = view.find('h2');
+			expect(header.text()).toEqual('Louie Manicni');
+			expect(header.next('span').text()).toEqual('louiscmancini@gmail.com');
+		});
+		
+		
+	
+		
+	});
+	
 });

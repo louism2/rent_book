@@ -36,7 +36,6 @@ backbone_data.Views.NewTenantView = Backbone.View.extend({
 			var val = event.target[x].value;	
 			model.set(key, val);		
 		}
-		console.log('valid? : '+model.isValid());
 		model.save(model.attributes, {error: function(res){
 			console.log('error in new tenant');
 		}});
