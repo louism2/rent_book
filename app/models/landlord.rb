@@ -11,7 +11,7 @@ class Landlord < ActiveRecord::Base
   #email_regex = /\A[\w\-.]+@[a-z\d\-.]+\.[a-z]+\Z/i
   password_regex = /\A(?=.*\d)(?=.*[a-zA-Z]).{8,}\Z/i
  
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :email_confirmation
   
   validates :name,                      presence: true
   
@@ -22,8 +22,9 @@ class Landlord < ActiveRecord::Base
                                         format: {:with => password_regex},
                                         confirmation: true      
   
-  
-
+  def sign_in_query
+    { buildings: self.buildings }
+  end  
 
 private 
 

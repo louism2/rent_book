@@ -3,28 +3,21 @@ backbone_data.Views.NewTenantView = Backbone.View.extend({
 	events: {
 		'submit #tenant_form':'createTenant'
 	},
-	initialize: function(){
+	initialize: function(options){
 		var self = this;
-		self.model.on('save', function(){
-			console.log('save event');
-		});
 		self.model.on('sync', function(model, response, options){
-			console.log('sync');
 			if(response.errors){	
-				// render errors in view
-				// if landlord_id is nil then someone tried
-				// to access the app in an unauthorized way
+				self.displayErrors(response.errors);
 			}else{
 				model.set({id: response.id});
 				self.displayTenant();
 			}
 		});
 		self.model.on('invalid', function(model){
-			console.log('invalid tenatn');
+			// invalid tenant
 		});
 	},
 	render: function(){
-		this.model = new backbone_data.Models.Tenant();
 		this.$el.html(this.template(this.model.attributes));
 		return this
 	},
@@ -36,15 +29,15 @@ backbone_data.Views.NewTenantView = Backbone.View.extend({
 			var val = event.target[x].value;	
 			model.set(key, val);		
 		}
-		model.save(model.attributes, {error: function(res){
-			console.log('error in new tenant');
-		}});
+		model.save(model.attributes);
 		return false;
 	},
 	displayTenant: function(){
 		var showTenantView = new backbone_data.Views.ShowTenantView({model: this.model});
-		
 		$container.html(showTenantView.render().el);
+	}, 
+	displayErrors: function(errros){
+		
 	}
 	
 });

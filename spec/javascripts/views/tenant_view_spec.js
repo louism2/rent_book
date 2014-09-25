@@ -86,10 +86,10 @@ describe('NewTenantView', function(){
 		
 		it('should display the Tenant\'s general info', function(){
 			var tenant = new backbone_data.Models.Tenant(factories.tenant);
-			var view = new backbone_data.Views.TenantShowView({tenant: tenant});
+			var view = new backbone_data.Views.ShowTenantView({model: tenant});
 			view.render();
-			var header = view.find('h2');
-			expect(header.text()).toEqual('Louie Manicni');
+			var header = view.$el.find('h2');
+			expect(header.text()).toEqual('Louie Mancini');
 			expect(header.next('span').text()).toEqual('louiscmancini@gmail.com');
 		});
 		

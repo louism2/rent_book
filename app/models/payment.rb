@@ -6,7 +6,6 @@ class Payment < ActiveRecord::Base
    
    validates :amount,            :presence => true
    
-   validates :payment_date,      :presence => true
    
 
 end

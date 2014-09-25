@@ -9,6 +9,7 @@ backbone_data.Views.NewLandlordView = Backbone.View.extend({
 			if(response.errors){
 				self.displayErrors(response.errors);
 			}else{
+				model.set({id: response.id});
 				self.displayLandlord(model, response);
 			}
 		});

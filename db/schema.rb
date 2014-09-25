@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919021110) do
+ActiveRecord::Schema.define(version: 20140923034506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,6 @@ ActiveRecord::Schema.define(version: 20140919021110) do
     t.integer  "tenant_id"
     t.integer  "receivable_id"
     t.decimal  "amount",        precision: 7, scale: 2
-    t.date     "payment_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -8,6 +8,7 @@ backbone_data.Routers.ApplicationRouter = Backbone.Router.extend({
 		'tenants/new':'new_tenant'
 	},
 	initialize: function(options){
+		// intialization here
 	},
 	sign_in: function(){
 		var signInView = new backbone_data.Views.SignInView();	
