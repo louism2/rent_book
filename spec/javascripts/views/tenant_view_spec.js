@@ -40,29 +40,29 @@ describe('NewTenantView', function(){
 			expect(view.model.attributes).toEqual(attrs);
 		});
 		
-		// it('should send an ajax request if the tenant is valid', function(){
-		// 	var viewSpy = spyOn(backbone_data.Views.ShowTenantView.prototype,'render');
-		// 	var tenant = new backbone_data.Models.Tenant();
-		// 	var newTenantView = new backbone_data.Views.NewTenantView({model: tenant});
-		// 	var $dom = newTenantView.render().$el;
-		// 	
-		// 	var server = sinon.fakeServer.create();
-		// 	
-		// 	for(key in attrs){
-		// 		$dom.find('#'+key).val(attrs[key]);
-		// 	}
-		// 	
-		// 	$dom.find('#tenant_form').submit();
-		// 	
-		// 	server.requests[0].respond(
-		// 		200, 
-		// 		{ "Content-Type": "application/json" },
-		// 		JSON.stringify({tenant: {id: 1}})
-		// 	);
-		// 	
-		// 	expect(viewSpy).toHaveBeenCalled();
-		// 	
-		// });
+		it('should send an ajax request if the tenant is valid', function(){
+			var viewSpy = spyOn(backbone_data.Views.ShowTenantView.prototype,'render').and.callThrough();
+			var tenant = new backbone_data.Models.Tenant();
+			var newTenantView = new backbone_data.Views.NewTenantView({model: tenant});
+			var $dom = newTenantView.render().$el;
+			
+			var server = sinon.fakeServer.create();
+			
+			for(key in attrs){
+				$dom.find('#'+key).val(attrs[key]);
+			}
+			
+			$dom.find('#tenant_form').submit();
+			
+			server.requests[0].respond(
+				200, 
+				{ "Content-Type": "application/json" },
+				JSON.stringify({tenant: {id: 1}})
+			);
+			
+			expect(viewSpy).toHaveBeenCalled();
+			
+		});
 		
 		it('should not send an ajax request if the tenant is not valid', function(){
 			var spy = spyOn(jQuery, 'ajax');
@@ -82,20 +82,57 @@ describe('NewTenantView', function(){
 		//it('should not ') 
 	});
 	
-	describe('tenant show page', function(){
+});	
+	
+describe('showTenantView', function(){
+	
+	var showTenantView;
+	var $container;
+	
+	beforeEach(function(){
+		setupNamespace('tenant', null);
+		loadFixtures('base.html');
+		$container = $('#content_container');
+
+		var tenant = window.ns.tenant;
+		showTenantView = new backbone_data.Views.ShowTenantView({model: tenant});
+		$container.html(showTenantView.render().el);
+	});
+	
+	it('should render the proper template', function(){
+		expect(showTenantView.template).toEqual(JST['tenants/show']);		
+	});
+
+	it('should call the fetchBuildingData method on render', function(){
+		var tenantSpy = spyOn(backbone_data.Views.ShowTenantView.prototype, 'drawReceivablesList');
+		showTenantView.render();
+
+		expect(tenantSpy).toHaveBeenCalled();
+	});
+	
+	it('should display the Tenant\'s general info', function(){
+		var header = showTenantView.$el.find('h2');
+		expect(header.text()).toEqual('Louie Mancini');
+		expect(header.next('span').text()).toEqual('louiscmancini@gmail.com');
+	});
+	
+	describe("A tenant's list of receivables and payments", function(){
 		
-		it('should display the Tenant\'s general info', function(){
-			var tenant = new backbone_data.Models.Tenant(factories.tenant);
-			var view = new backbone_data.Views.ShowTenantView({model: tenant});
-			view.render();
-			var header = view.$el.find('h2');
-			expect(header.text()).toEqual('Louie Mancini');
-			expect(header.next('span').text()).toEqual('louiscmancini@gmail.com');
+		describe("a list with two units in two buildings with two payments for each unit", function(){
+			
+			it('should display a list of recievables and payments if they exist', function(){
+				console.log(ns)
+				var $lists = $container.find('ul');
+				console.log($lists);
+				expect($lists.length).toEqual(2);
+				expect($lists.first().find('li').length).toEqual(3);
+				//expect($lists.next().find('li')).toEqual(2);					
+			});
+			
 		});
 		
 		
-	
-		
-	});
+	})
 	
 });
+

@@ -11,39 +11,40 @@ class Tenant < ActiveRecord::Base
   validates :name,              presence: true
   
   
-  def sign_in_query
+  def namespace_data_query
     response = {}
-    units = units_query
-    unit_info = unit_info_query  
-    units.each do |unit|
-      response[unit['unit_id']] = {unit_number: unit['unit_number'], receivables: nil}
-    end  
-    unit_info.group_by{ |rec| rec['unit_id'] }.each_pair{|key,val| response[key][:receivables] = val} 
-    { data: response }
-  end  
-  
-
+    unit_info_query.each do |payment|
+      response[payment['unit_id']] = {building: {id: payment['building_id'], name: payment['building_name'], unit_number: payment['unit_number']}, receivables: {}} if response[payment['unit_id']].nil?
+      add_receivable_entry(response, payment)
+      add_payments_entry(response, payment)
+    end
+    response
+  end
+ 
 private
 
-  def units_query
-    query = "SELECT rental_obligations.unit_id, units.unit_number, buildings.name
-    FROM rental_obligations
-    LEFT OUTER JOIN units ON rental_obligations.unit_id = units.id
-    LEFT OUTER JOIN buildings ON units.building_id = buildings.id
-    WHERE rental_obligations.tenant_id = #{self.id}"
-    ActiveRecord::Base.connection.execute(query)
-  end
-
   def unit_info_query
-    query = "SELECT receivables.unit_id AS unit_id, receivables.id, receivables.balance, payments.amount, 
-    payments.tenant_id, payments.created_at
+    query = "SELECT receivables.unit_id, receivables.id AS receivable_id, receivables.balance, 
+    payments.id AS payment_id, payments.amount, payments.tenant_id, payments.created_at AS date,
+    buildings.name AS building_name, buildings.id AS building_id,
+    units.unit_number, units.monthly_rent
     FROM receivables
     LEFT OUTER JOIN payments ON receivables.unit_id = payments.receivable_id
+    LEFT OUTER JOIN units ON receivables.unit_id = units.id
+    LEFT OUTER JOIN buildings ON units.building_id = buildings.id
     WHERE receivables.unit_id IN (SELECT unit_id FROM rental_obligations WHERE tenant_id = #{self.id}) 
     ORDER BY payments.created_at DESC"
     ActiveRecord::Base.connection.execute(query)
   end
 
+  def add_receivable_entry(hsh, payment)
+    hsh[payment['unit_id']][:receivables][payment['receivable_id']] = {rec: {balance: payment['balance'], rent: payment['monthly_rent']}, payments: []} if hsh[payment['unit_id']][:receivables][payment['receivable_id']].nil?
+  end  
+  
+  def add_payments_entry(hsh, payment)
+    hsh[payment['unit_id']][:receivables][payment['receivable_id']][:payments] << {id: payment['payment_id'], amount: payment['amount'], tenant_id: payment['tenant_id'], date: payment['date']} unless payment['payment_id'].nil?
+  end  
+  
   def encrypt_password
     self.salt = make_salt 
     self.encrypted_password = encrypt(password)

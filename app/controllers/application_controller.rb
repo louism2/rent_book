@@ -1,13 +1,16 @@
 class ApplicationController < ActionController::Base
   
+  include ApplicationHelper, SessionsHelper
+  
   protect_from_forgery with: :exception
   
-  include SessionsHelper
   
-  #before_filter :log_headers
+  before_action :authenticate_request, unless: :safe_page?
   
-  # def log_headers
-  #   logger.debug(">>>>>>>>>>>>>>>> #{request.headers}")
-  # end
+  rescue_from UnauthorizedUser, with: :deny_access
   
 end
+
+
+
+

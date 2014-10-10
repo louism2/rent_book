@@ -101,7 +101,7 @@ describe('ShowLandlordView', function(){
 		describe('the list of properties', function(){
 			
 			it('should display list of properties if the landlord has any', function(){		
-				setupNamespace(2);
+				setupNamespace('landlord',2);
 				var landlord = ns.landlord
 				var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 				showLandlordView.render();
@@ -110,7 +110,7 @@ describe('ShowLandlordView', function(){
 			});
 			
 			it('should display a message letting the user no that they have no buildings in the system', function(){
-				setupNamespace(0);
+				setupNamespace('landlord', 0);
 				var landlord = ns.landlord
 				var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 				showLandlordView.render();
@@ -131,7 +131,7 @@ describe('ShowLandlordView', function(){
 		beforeEach(function(){
 			loadFixtures('base.html');
 			$container = $('#content_container');
-			setupNamespace(2);
+			setupNamespace('landlord',2);
 			landlord = ns.landlord;
 			showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 			showLandlordView.render();

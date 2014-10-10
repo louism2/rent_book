@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     user = constant.authenticate(params[:email], params[:password])
     if user
       sign_in user
-      client_data = user.sign_in_query
+      client_data = user.namespace_data_query
       response = { status: 'success', params[:identity].downcase => user, data: client_data }
       render json: response
     else

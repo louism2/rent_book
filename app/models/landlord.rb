@@ -22,12 +22,26 @@ class Landlord < ActiveRecord::Base
                                         format: {:with => password_regex},
                                         confirmation: true      
   
-  def sign_in_query
+  def namespace_data_query
     { buildings: self.buildings }
   end  
+  
+  def access_tenant?(tenant_id)
+    return false unless relationship_query(tenant_id).any?
+  end  
+  
+private  
 
-private 
-
+  def relationship_query(tenant_id)
+    raw_sql = "SELECT landlords.id, buildings.id, units.id, rental_obligations.tenant_id
+    FROM landlords 
+    JOIN buildings ON landlords.id = buildings.landlord_id
+    JOIN units ON buildings.id = units.building_id
+    JOIN rental_obligations ON units.id = rental_obligations.unit_id
+    WHERE landlords.id = #{self.id} AND rental_obligations.tenant_id = ?"
+    ActiveRecord::Base.connection.execute(Landlord.send(:sanitize_sql_array, [raw_sql, tenant_id]))
+  end
+  
   def encrypt_password  
     self.salt = make_salt 
     self.encrypted_password = encrypt(password)

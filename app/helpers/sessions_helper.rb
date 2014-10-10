@@ -5,8 +5,9 @@ module SessionsHelper
     self.current_user=(user) 
   end
   
-  def signed_in?
-    !current_user.nil?
+  def encrypt_password  
+    salt = make_salt 
+    encrypted_password = encrypt(password)
   end
   
   def sign_out(user)
@@ -19,15 +20,12 @@ module SessionsHelper
   end
   
   def current_user 
-    @current_user ||= user_from_remember_token  
-  end
-  
-  def sign_out_link
-    link_to 'sign out', sign_out_path, {method: :delete}
+    @current_user
   end
   
   def authenticate_with_salt(id, user_salt_from_cookie)   
-    user = find_by_id(id)
+    return nil unless id
+    user = find(id)
     (user && user.salt == user_salt_from_cookie) ? user : nil   
   end
 
@@ -36,38 +34,45 @@ module SessionsHelper
     return nil if user.nil?
     user.has_password?(submitted_password) ? user : false
   end
-
+  
+  # def signed_in?
+  #   !current_user.nil?
+  # end
+  
+  # def sign_out_link
+  #   link_to 'sign out', sign_out_path, {method: :delete}
+  # end
+  
   def has_password?(submitted_password) 
     encrypted_password == encrypt(submitted_password) 
   end
   
-  def encrypt_password  
-    salt = make_salt 
-    encrypted_password = encrypt(password)
-  end
-  
+private
+
   def encrypt(pass)
     secure_hash("#{salt} -- #{pass}") 
   end
+  #     
+  #       def make_salt
+  #         secure_hash("#{Time.now.utc} -- #{password}")
+  #       end
+  #     
+  #       def secure_hash(string)
+  #         Digest::SHA2.hexdigest(string)
+  #       end
+  #     
 
-  def make_salt
-    secure_hash("#{Time.now.utc} -- #{password}")
-  end
+  # def remember_token
+  #     cookies.signed[:remember_token] || [nil, nil]
+  # end
 
-  def secure_hash(string)
-    Digest::SHA2.hexdigest(string)
-  end
   
-
-private
-
-  def remember_token
-      cookies.signed[:remember_token] || [nil, nil]
-  end
-
-  def user_from_remember_token
-    Landlord.authenticate_with_salt(*remember_token) 
-  end
+  # No longer calling a abstracted method to auth both tenant's and landlord's.  Auth is handled in a before_action in 
+  # ApplicationController and individual, user-level auth is handled in each controller.  
+  
+  # def user_from_remember_token
+  #   authenticate_with_salt(*remember_token) 
+  # end
   
   
 end

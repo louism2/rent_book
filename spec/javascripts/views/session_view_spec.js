@@ -2,51 +2,39 @@ describe('the sign_in form', function(){
 	
 	var tenant = factories.tenant;
 	var landlord = factories.landlord;
-	
-	var landlord_response = {
-								status: 'success', 
-								landlord: factories.landlord,
-								data:{ buildings: [factories.building, factories.building_2] }
-							}
-							
-	var tenant_response = {
-								status: 'success',
-								tenant: factories.tenant,
-								data: {1: {unit_number:0, receivables: [{"unit_id"=>"1", "id"=>"1", "balance"=>"1000.00", "amount"=>"100.00", "tenant_id"=>"96", "created_at"=>"2014-09-23 03:58:13.387651"}, {"unit_id"=>"1", "id"=>"1", "balance"=>"1000.00", "amount"=>"100.00", "tenant_id"=>"96", "created_at"=>"2014-09-23 03:40:04.722676"}]}}}				
-						  }
 						
-						
-		
-
-	describe('populating the user objects', function(){
-	
+	describe('returning to the application as an authenticated user with a cookie present', function(){
+			
 		describe('a tenant', function(){
-		
+						
 			it('should correctly populate a user on the call to initializeUser', function(){
+				delete_cookie('remember_token_landlord');
 				loadFixtures('base.html');
+				window.object_namespace = {};
+				window.ns = window.object_namespace;
 				var server = sinon.fakeServer.create();
 				document.cookie = "remember_token_tenant=some_dummy_value";
 				backbone_data.Helpers.initializeUser();
 				server.requests[0].respond(
 					200, 
 					{ "Content-Type": "application/json" }, 
-					JSON.stringify(tenant_response)
+					JSON.stringify(fullTenantResponse)
 				);
-				
-				expect(window.object_namespace.tenant).not.toBe(null);
-				expect(window.ns.paymentsCollection).not.toBe(null);
-				expect(window.ns.paymentsCollection.length).toEqual(2);				
+		
+				expect(window.ns.tenant).not.toBe(null);
+				expect(window.ns.receivablesCollection.length).toBeGreaterThan(1);
+				expect(window.ns.paymentsCollection.length).toBeGreaterThan(1);				
 				
 				delete_cookie('remember_token_tenant');
 				server.restore();
-				router.navigate('');
+				router.navigate('/');
 			});
 			
 		});
 		
 		describe('a landlord', function(){
-			
-			it('should correctly populate a user on the call to initializeUser', function(){
+					
+			it('should correctly populate a landlord on the call to initializeUser', function(){
 				loadFixtures('base.html');
 				var server = sinon.fakeServer.create();
 				document.cookie = "remember_token_landlord=some_dummy_value";
@@ -54,20 +42,18 @@ describe('the sign_in form', function(){
 				server.requests[0].respond(
 					200, 
 					{ "Content-Type": "application/json" }, 
-					JSON.stringify(landlord_response)
+					JSON.stringify(fullLandlordResponse)
 				);
 			
-				expect(window.object_namespace.tenant).not.toBe(null);
-				expect(window.ns.paymentsCollection).not.toBe(null);
-				expect(window.ns.paymentsCollection.length).toEqual(2);
+				expect(window.object_namespace.landlord).not.toBe(null);
+				expect(window.ns.buildingsCollection.length).toBeGreaterThan(0);
 
-				delete_cookie('remember_token_tenant');
+				delete_cookie('remember_token_landlord');
 				server.restore();
-				router.navigate('');
+				router.navigate('/');
 			});
 			
 		});
-		
 		
 	});
 	
@@ -88,6 +74,33 @@ describe('the sign_in form', function(){
 			
 			var fields = $container.find('input[type="text"]');
 			for(var x = 0; x < fields.length; x++){
+				$(fields[x]).val(landlord[fields[x].name])
+			}		
+			
+			$('#sign_in_form').submit();
+			server.requests[0].respond(
+				200, 
+				{ "Content-Type": "application/json" }, 
+				JSON.stringify(fullLandlordResponse)
+			);	
+			
+			expect(spy).toHaveBeenCalled();
+			server.restore();
+		});
+		
+		it('should sign in a tenant and call the showUser method on success', function(){
+							
+			var server = sinon.fakeServer.create();
+			loadFixtures('base.html');
+			$container = $('#content_container');
+		
+			var spy = spyOn(backbone_data.Views.SignInView.prototype, 'showUser');
+			
+			var view = new backbone_data.Views.SignInView();
+			$container.html(view.render().el);
+			
+			var fields = $container.find('input[type="text"]');
+			for(var x = 0; x < fields.length; x++){
 				$(fields[x]).val(tenant[fields[x].name])
 			}		
 			
@@ -95,17 +108,13 @@ describe('the sign_in form', function(){
 			server.requests[0].respond(
 				200, 
 				{ "Content-Type": "application/json" }, 
-				JSON.stringify(landlord_response)
+				JSON.stringify(fullTenantResponse)
 			);	
 			
 			expect(spy).toHaveBeenCalled();
 			server.restore();
-		});
 		
-		// it('should sign in a tenant and populate the given namespace objects', function(){
-		// 
-		// 
-		// });
+		});
 		
 	});
 	

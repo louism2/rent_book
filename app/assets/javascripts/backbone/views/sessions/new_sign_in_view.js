@@ -26,7 +26,6 @@ backbone_data.Views.SignInView = Backbone.View.extend({
 		}).done(function(data){
 			if(data.status == 'success'){
 				self.showUser(data);
-				console.log(data);
 			}else{
 				// present login error
 			}
@@ -45,7 +44,6 @@ backbone_data.Views.SignInView = Backbone.View.extend({
 		}
 		$header.find('a').remove();
 		$header.append(headerNavigationView.render().$el);
-		backbone_data.Helpers.setAndShowLandlord(data);
 	},
 	createNewUser: function(e){
 		if($(e.currentTarget).data('type') == 'tenant'){

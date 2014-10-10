@@ -1,5 +1,8 @@
 class LandlordsController < ApplicationController
   
+  #before_filter :authenticate_request, only: [:show, :update, :destroy]
+  
+  
   def auth
     
     # dev_cleint_id: ca_4G71KSnxGfaUqrR7Y0gXgyCoktnasmhp
@@ -40,8 +43,9 @@ class LandlordsController < ApplicationController
   end
   
   def show
-    landlord = Landlord.includes(:buildings).find(current_user.id)
-    render json: {landlord: landlord, buildings: landlord.buildings}
+    landlord = current_user
+    landlord_data = landlord.namespace_data_query
+    render json: { status: 'success', landlord: landlord, data: landlord_data }
   end
   
   def edit

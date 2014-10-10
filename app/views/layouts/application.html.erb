@@ -11,6 +11,7 @@
 	$(document).ready(function(){
 		window.$container = $('#content_container');
 		window.$header = $('#header_nav');
+		window.object_namespace = {};
 		window.ns = window.object_namespace;
 		window.router = new backbone_data.Routers.ApplicationRouter();
 		Backbone.history.start({pushState: true, silent: true});

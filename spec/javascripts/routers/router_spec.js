@@ -2,7 +2,7 @@ describe('Application Router', function(){
 	
 	var router = new backbone_data.Routers.ApplicationRouter();
 	Backbone.history.start({pushState: true});
-	setupNamespace();
+	setupNamespace('landlord', 2);
 	var container;
 	
 	beforeEach(function(){
@@ -31,11 +31,6 @@ describe('Application Router', function(){
 			testRouteTriggerOnUrlMatch(router, 'landlords/1/new_building', 'new_building');
 		});
 		
-		it("should match 'landlords/:landlord_id' to the 'show_landlord' function", function(){
-			expect(router.routes['landlords/:landlord_id']).toEqual('show_landlord');
-			testRouteTriggerOnUrlMatch(router, 'landlords/1', 'show_landlord');	
-		});
-		
 		it("should match 'tenants/new' to the 'new_tenant' function", function(){
 			expect(router.routes['tenants/new']).toEqual('new_tenant');
 			testRouteTriggerOnUrlMatch(router, 'tenants/new', 'new_tenant');	
@@ -60,12 +55,6 @@ describe('Application Router', function(){
 		it('should render the "new" template for the "landlords/:id/new_building" url', function(){
 			var viewSpy = spyOn(backbone_data.Views.NewBuildingView.prototype,'render').and.callThrough();
 			router.navigate('landlords/1/new_building',{trigger: true});
-			expect(viewSpy).toHaveBeenCalled();
-		});
-		
-		it('should render the "show" template for the "landlords/:id" url', function(){
-			var viewSpy = spyOn(backbone_data.Views.ShowLandlordView.prototype,'render').and.callThrough();
-			router.navigate('landlords/1',{trigger: true});
 			expect(viewSpy).toHaveBeenCalled();
 		});
 		

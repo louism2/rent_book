@@ -41,6 +41,10 @@ backbone_data.Helpers.testEmail = function(email){
 	return re.test(email);
 }
 
+var delete_cookie = function(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
+
 backbone_data.Helpers.initializeUser = function(){
 	var $header = $('#header_nav');
 	var headerNavigationView = new backbone_data.Views.HeaderNavigationView({attributes: {}});
@@ -50,26 +54,24 @@ backbone_data.Helpers.initializeUser = function(){
 		router.navigate('');
 		router.navigate('/sign_in', {trigger: true});
 	}else if(backbone_data.Helpers.hasKey('remember_token_landlord')){
-		backbone_data.Helpers.createLandlordNamespace();
 		$.get('/landlords/current_user', {
-					async: false, 
+					async: false,  
 				    contentType: "application/json; charset=utf-8",
 			        dataType: "json",
 		}).done(function(data){
-			headerNavigationView.attributes = {signed_in:true,type:'landlord'};
+			headerNavigationView.attributes = {signed_in:true, type:'landlord'};
 			$header.append(headerNavigationView.render().$el);
 			backbone_data.Helpers.setAndShowLandlord(data);
 		}).error(function(){
 
 		});	
 	}else if(backbone_data.Helpers.hasKey('remember_token_tenant')){
-		backbone_data.Helpers.createTenantNamespace();
 		$.get('/tenants/current_user', {
 					async: false, 
 				    contentType: "application/json; charset=utf-8",
 			        dataType: "json",
 		}).done(function(data){
-			headerNavigationView.attributes = {signed_in:true,type:'tenant'};
+			headerNavigationView.attributes = {signed_in:true, type:'tenant'};
 			$header.append(headerNavigationView.render().$el);
 			backbone_data.Helpers.setAndShowTenant(data);
 		}).error(function(){
@@ -79,56 +81,48 @@ backbone_data.Helpers.initializeUser = function(){
 }
 
 backbone_data.Helpers.setAndShowLandlord = function(response){
-	window.object_namespace.landlord = new backbone_data.Models.Landlord(response.landlord);
-	backbone_data.Helpers.setBuildings(response.data.buildings);
-	var landlord = ns.landlord;
+	var landlord = window.object_namespace.landlord = new backbone_data.Models.Landlord(response.landlord);
+	backbone_data.Helpers.setBuildings(response.data);
 	var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
 	$container.html(showLandlordView.render().el);
 	router.navigate('/landlords/'+landlord.id);
-}
-
-backbone_data.Helpers.createLandlordNamespace = function(){
-	window.object_namespace = {
-		landlord: null,
-		buildingsCollection: null
-	}
-}
-
-backbone_data.Helpers.createTenantNamespace = function(){
-	window.object_namespace = {
-		tenant: null,
-		paymentsCollection: null
-	}
-}
-
-backbone_data.Helpers.setAndShowTenant = function(response){
-	backbone_data.Helpers.setLandlord({});
-	backbone_data.Helpers.setBuildings([{}]);
-	window.object_namespace.tenant = new backbone_data.Models.Landlord(response).tenant);
-	backbone_data.Helpers.setPayments(response.data);
-	var landlord = ns.landlord;
-	var showLandlordView = new backbone_data.Views.ShowLandlordView({model: landlord});
-	$container.html(showLandlordView.render().el);
-	router.navigate('/landlords/'+landlord.id);
-	headerNavigationView.attributes.signed_in = true;
-	$header.append(headerNavigationView.render().$el);
 }
 
 backbone_data.Helpers.setBuildings = function(response){
+	var buildings = response.buildings;
 	window.ns.buildingsCollection = new backbone_data.Collections.BuildingsCollection();
-	for(key in response){
-		console.log(response[key])
-		var building = new backbone_data.Models.Building(response[key]);
+	for(property in buildings){
+		var building = new backbone_data.Models.Building(buildings[property]);
 		ns.buildingsCollection.add(building);
 	}
 }
 
-backbone_data.Helpers.setPayments = function(key_name){
-	p
-	
+backbone_data.Helpers.setAndShowTenant = function(response){
+	var tenant = window.ns.tenant = new backbone_data.Models.Tenant(response.tenant);
+	backbone_data.Helpers.setPayments(response.data);
+	var showTenantView = new backbone_data.Views.ShowTenantView({model: tenant});
+	$container.html(showTenantView.render().el);
+	router.navigate('/tenants/'+tenant.id);
+}
+
+backbone_data.Helpers.setPayments = function(response){
+    window.ns.paymentsCollection = new backbone_data.Collections.PaymentsCollection();
+	window.ns.receivablesCollection = new backbone_data.Collections.ReceivablesCollection();
+	for(rec in response){	
+		var rec_data = response[rec].rec_data;
+		var payment_arr = response[rec].payments;
+		
+		var receivable = new backbone_data.Models.Receivable(rec_data);
+		window.ns.receivablesCollection.add(receivable);
+		for(var x=0; x <= payment_arr.length-1; x++){
+			payment_arr[x].receivable_id = receivable.get('id');
+			var payment = new backbone_data.Models.Payment(payment_arr[x])
+			ns.paymentsCollection.add(payment);
+		}
+	}
 }	
 
-
+// allows for testing wether or not a cookie is set
 backbone_data.Helpers.hasKey = function(key_name){
 	if (!key_name) { return false; }
 	return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(key_name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);

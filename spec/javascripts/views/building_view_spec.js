@@ -89,6 +89,7 @@ describe('NewBuildingView', function(){
 });
 
 describe('ShowBuildingView', function(){
+	
 	var attrs = factories.building; attrs.id = 1;
 	var building = new backbone_data.Models.Building(attrs);
 	var showBuildingView = new backbone_data.Views.ShowBuildingView({model: building});
