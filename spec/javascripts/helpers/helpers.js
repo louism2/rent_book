@@ -55,31 +55,22 @@ factories = {
 }
 
 fullTenantResponse = {
-
 						status: 'success',
 						tenant: factories.tenant,
-						data: {2:{building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
-								  receivables: {'1':{rec: {balance: '500', rent: '1000'},
-								  					 payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, 
-									    	 		 		    {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}
-									  						   ],
-												'2':{rec: {balance: '500', rent: '1000'},
-												  	 payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, 
-													    	 	{id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}
-													  		   ],
-							  }},
-						 	  3:{building: {id: '21', name: 'The Allegro', unit_number: '55B'}, 
-								  receivables: {'7':{rec: {balance: '500', rent: '1000'},
-								  					 payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, 
-									    	 		 		    {id: "1", amount: "250.00", tenant_id: "12", date: "2014-09-23 03:40:04.722676"}
-									  						   ],
-												'8':{rec: {balance: '500', rent: '1000'},
-												  	 payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, 
-													    	 	{id: "1", amount: "250.00", tenant_id: "12", date: "2014-09-23 03:40:04.722676"}
-													  		   ],
-							 }}
-						}
-					}				
+						data: {2: { building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
+								    receivables: {
+												  '1':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
+										          '2':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
+										         } // close receivables for unit 2
+							  		}, //close object for unit 2
+					   		   4: { building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
+									receivables: {
+												   '1':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
+											       '2':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
+											      } // close receivables for unit 2
+								  } // close object for unit 4
+							} // close data object 	
+					} // close FullTenantResponse
 				
 fullLandlordResponse = {
 						status: 'success', 
