@@ -25,18 +25,33 @@ function setupNamespace(type, length){
 			buildingsCollection: new backbone_data.Collections.BuildingsCollection(buildings)
 		}
 	}else{
+		window.ns.tenant = new backbone_data.Models.Tenant(factories.tenant);
+		window.ns.tenant.units = [];
 		window.ns.paymentsCollection = new backbone_data.Collections.PaymentsCollection();
 		window.ns.receivablesCollection = new backbone_data.Collections.ReceivablesCollection();
-		var response = fullTenantResponse.data;
-		for(rec in response){	
-			var rec_data = response[rec].rec_data;
-			var payment_arr = response[rec].payments;
-
-			var receivable = new backbone_data.Models.Receivable(rec_data);
-			window.ns.receivablesCollection.add(receivable);
-			for(var x=0; x <= payment_arr.length-1; x++){
-				var payment = new backbone_data.Models.Payment(payment_arr[x])
-				ns.paymentsCollection.add(payment);
+		var units = fullTenantResponse.data;
+		for(unit in units){
+			var unit_id = unit;
+			var building = units[unit].building;
+			building['unit_id'] = unit;
+			// creates an array of units that the tenant has obligations for.  Referenced in the ReceivablesCollection by the unit_id
+			ns.tenant.units.push(building);
+			var receivables = units[unit].receivables; // Object {1: Object, 2: Object}
+			for(rec in receivables){
+				// receivables[rec] = Object {payments: Array[2], rec: Object}
+				var attributes = receivables[rec].rec; 
+				// add the receivable id and the unit id to the receivable attributes
+				attributes['id'] = rec; 
+				attributes['unit_id'] = unit_id 
+	 			var receivable = new backbone_data.Models.Receivable(attributes);	
+				window.ns.receivablesCollection.add(receivable);
+				var payments = receivables[rec].payments;
+				for(payment in payments){
+					var attributes = payments[payment];
+					attributes['receivable_id'] = rec
+	 				var payment = new backbone_data.Models.Payment(attributes);
+					ns.paymentsCollection.add(payment);
+				}			
 			}
 		}
 	}
@@ -59,18 +74,37 @@ fullTenantResponse = {
 						tenant: factories.tenant,
 						data: {2: { building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
 								    receivables: {
-												  '1':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
-										          '2':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
+												  '1':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "1", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "2", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
+										          '2':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "3", amount: "250.00", tenant_id: "77", date: "2014-09-23 03:58:13.387651"}, {id: "4", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
 										         } // close receivables for unit 2
 							  		}, //close object for unit 2
 					   		   4: { building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
 									receivables: {
-												   '1':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
-											       '2':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "2", amount: "250.00", tenant_id: "96", date: "2014-09-23 03:58:13.387651"}, {id: "1", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
+												   '3':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "5", amount: "250.00", tenant_id: "84", date: "2014-09-23 03:58:13.387651"}, {id: "6", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
+											       '4':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "7", amount: "250.00", tenant_id: "34", date: "2014-09-23 03:58:13.387651"}, {id: "8", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
 											      } // close receivables for unit 2
 								  } // close object for unit 4
 							} // close data object 	
 					} // close FullTenantResponse
+					
+tenantWithoutPayments = {
+							status: 'success',
+							tenant: factories.tenant,
+							data: {2: { building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
+									    receivables: {
+													  '1':{ rec: {balance: '500', rent: '1000'}, payments: []},		
+											          '2':{ rec: {balance: '500', rent: '1000'}, payments: []}
+											         } // close receivables for unit 2
+								  		}, //close object for unit 2
+						   		   4: { building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
+										receivables: {
+													   '3':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "5", amount: "250.00", tenant_id: "84", date: "2014-09-23 03:58:13.387651"}, {id: "6", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
+												       '4':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "7", amount: "250.00", tenant_id: "34", date: "2014-09-23 03:58:13.387651"}, {id: "8", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
+												      } // close receivables for unit 2
+									  } // close object for unit 4
+								} // close data object
+	
+						}
 				
 fullLandlordResponse = {
 						status: 'success', 

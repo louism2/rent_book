@@ -1,3 +1,2 @@
-<li data-id=<%= id %>>
-	<span><%= building_name %> - <%= unit_number %></span><span><%= balance %></span>
-</li>	
+<% var date = timestampToDate(date)%>
+<li data-id=<%= id %>><%= date.getMonth()+'/'+date.getYear()%> <%= rent %> balance: <%= balance %></li>	

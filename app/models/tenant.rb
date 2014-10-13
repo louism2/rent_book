@@ -24,7 +24,7 @@ class Tenant < ActiveRecord::Base
 private
 
   def unit_info_query
-    query = "SELECT receivables.unit_id, receivables.id AS receivable_id, receivables.balance, 
+    query = "SELECT receivables.unit_id, receivables.id AS receivable_id, receivables.balance, receivables.created_at,
     payments.id AS payment_id, payments.amount, payments.tenant_id, payments.created_at AS date,
     buildings.name AS building_name, buildings.id AS building_id,
     units.unit_number, units.monthly_rent
@@ -38,7 +38,7 @@ private
   end
 
   def add_receivable_entry(hsh, payment)
-    hsh[payment['unit_id']][:receivables][payment['receivable_id']] = {rec: {balance: payment['balance'], rent: payment['monthly_rent']}, payments: []} if hsh[payment['unit_id']][:receivables][payment['receivable_id']].nil?
+    hsh[payment['unit_id']][:receivables][payment['receivable_id']] = {rec: {balance: payment['balance'], rent: payment['monthly_rent'], date: payment['created_at']}, payments: []} if hsh[payment['unit_id']][:receivables][payment['receivable_id']].nil?
   end  
   
   def add_payments_entry(hsh, payment)

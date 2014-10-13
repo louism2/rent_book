@@ -118,17 +118,24 @@ describe('showTenantView', function(){
 	
 	describe("A tenant's list of receivables and payments", function(){
 		
-		describe("a list with two units in two buildings with two payments for each unit", function(){
+		describe("a list with multiple units and payments", function(){
 			
 			it('should display a list of recievables and payments if they exist', function(){
-				console.log(ns)
 				var $lists = $container.find('ul');
-				console.log($lists);
 				expect($lists.length).toEqual(2);
-				expect($lists.first().find('li').length).toEqual(3);
-				//expect($lists.next().find('li')).toEqual(2);					
+				expect($lists.first().find('li').length).toEqual(7);
+				expect($lists.first().next().find('li').length).toEqual(7);					
 			});
 			
+		});
+		
+		describe('receivables but no payments', function(){
+			
+			it('should display a "no payments made message"', function(){
+				var tenant = 
+			});
+		
+		
 		});
 		
 		

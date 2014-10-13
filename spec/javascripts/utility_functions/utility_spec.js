@@ -26,6 +26,7 @@ describe('rent_book.js', function(){
 			var spy = spyOn(backbone_data.Views.ShowTenantView.prototype, 'render').and.callThrough();
 			backbone_data.Helpers.setAndShowTenant(fullTenantResponse);
 			expect(window.ns.tenant).not.toBeNull();
+			expect(window.ns.tenant.units.length).toEqual(2);
 			expect(window.ns.paymentsCollection.length).toEqual(8);
 			expect(window.ns.receivablesCollection.length).toEqual(4);
 			router.navigate('/');

@@ -45,6 +45,10 @@ var delete_cookie = function(name) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };
 
+var timestampToDate = function(timestamp){
+	return new Date(timestamp+' UTC');
+}
+
 backbone_data.Helpers.initializeUser = function(){
 	var $header = $('#header_nav');
 	var headerNavigationView = new backbone_data.Views.HeaderNavigationView({attributes: {}});
@@ -99,25 +103,39 @@ backbone_data.Helpers.setBuildings = function(response){
 
 backbone_data.Helpers.setAndShowTenant = function(response){
 	var tenant = window.ns.tenant = new backbone_data.Models.Tenant(response.tenant);
+	window.ns.tenant.units = [];
 	backbone_data.Helpers.setPayments(response.data);
 	var showTenantView = new backbone_data.Views.ShowTenantView({model: tenant});
 	$container.html(showTenantView.render().el);
 	router.navigate('/tenants/'+tenant.id);
 }
 
-backbone_data.Helpers.setPayments = function(response){
+backbone_data.Helpers.setPayments = function(units){
     window.ns.paymentsCollection = new backbone_data.Collections.PaymentsCollection();
 	window.ns.receivablesCollection = new backbone_data.Collections.ReceivablesCollection();
-	for(rec in response){	
-		var rec_data = response[rec].rec_data;
-		var payment_arr = response[rec].payments;
-		
-		var receivable = new backbone_data.Models.Receivable(rec_data);
-		window.ns.receivablesCollection.add(receivable);
-		for(var x=0; x <= payment_arr.length-1; x++){
-			payment_arr[x].receivable_id = receivable.get('id');
-			var payment = new backbone_data.Models.Payment(payment_arr[x])
-			ns.paymentsCollection.add(payment);
+	for(unit in units){
+		var unit_id = unit;
+		var building = units[unit].building;
+		building['unit_id'] = unit;
+		// creates an array of units that the tenant has obligations for.  
+		// Referenced in the ReceivablesCollection by the unit_id.
+		ns.tenant.units.push(building);
+		var receivables = units[unit].receivables; // Object {1: Object, 2: Object}
+		for(rec in receivables){
+			// receivables[rec] = Object {payments: Array[2], rec: Object}
+			var attributes = receivables[rec].rec; 
+			// add the receivable id and the unit id to the receivable attributes
+			attributes['id'] = rec; 
+			attributes['unit_id'] = unit_id 
+ 			var receivable = new backbone_data.Models.Receivable(attributes);	
+			window.ns.receivablesCollection.add(receivable);
+			var payments = receivables[rec].payments;
+			for(payment in payments){
+				var attributes = payments[payment];
+				attributes['receivable_id'] = rec
+ 				var payment = new backbone_data.Models.Payment(attributes);
+				ns.paymentsCollection.add(payment);
+			}			
 		}
 	}
 }	
