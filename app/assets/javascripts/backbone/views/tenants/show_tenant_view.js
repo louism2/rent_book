@@ -19,6 +19,7 @@ backbone_data.Views.ShowTenantView = Backbone.View.extend({
 					for(receivable in receivables){
 						var rec = receivables[receivable];
 						$list.append(JST['tenants/_rec_line_item'](rec.attributes));
+						window.payments = ns.paymentsCollection.where({receivable_id: rec.id});
 						var payments = ns.paymentsCollection.where({receivable_id: rec.id});
 						if(payments.length){
 							for(payment in payments){
@@ -26,16 +27,14 @@ backbone_data.Views.ShowTenantView = Backbone.View.extend({
 								$list.append(JST['tenants/_payment_line_item'](payment.attributes))
 							}
 						}else{
-							//$list.append('<p>no payments made for this month</p>');
+							$list.append('<li>no payments made for this month</li>');
 						}
 					}
-				}else{
-					//$list.append('<p>no history for this unit</p>');
 				}
 				self.append( $list.css({display: 'block'}) );
 			}// end unit loop
 		}else{
-			//$list.append('<p>no rental history</p>');
+			self.append('<p>no rental history</p>');
 		}	
 		
 		

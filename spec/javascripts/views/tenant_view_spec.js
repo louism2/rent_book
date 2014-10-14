@@ -90,6 +90,7 @@ describe('showTenantView', function(){
 	var $container;
 	
 	beforeEach(function(){
+		tenantReceivablesFactory = fullTenantResponse;
 		setupNamespace('tenant', null);
 		loadFixtures('base.html');
 		$container = $('#content_container');
@@ -131,13 +132,32 @@ describe('showTenantView', function(){
 		
 		describe('receivables but no payments', function(){
 			
-			it('should display a "no payments made message"', function(){
-				var tenant = 
+			it('should display a "no payments made" message', function(){
+				tenantReceivablesFactory = tenantWithoutPayments;
+				setupNamespace('tenant', null);
+				var tenant = window.ns.tenant;
+				showTenantView = new backbone_data.Views.ShowTenantView({model: tenant});
+				$container.html(showTenantView.render().el);
+				var $lists = $container.find('ul');
+				expect($lists.length).toEqual(2);
+				expect($lists.first().find('li').length).toEqual(5);
+				expect($lists.first().find('li:nth-child(3)').text()).toEqual('no payments made for this month');
 			});
 		
-		
 		});
-		
+
+		describe('no receivables', function(){
+				
+			it('should display a "no rental history" message', function(){
+				tenantReceivablesFactory = tenantWithoutReceivables;
+				setupNamespace('tenant', null);
+				var tenant = window.ns.tenant;
+				showTenantView = new backbone_data.Views.ShowTenantView({model: tenant});
+				$container.html(showTenantView.render().el);
+				expect($container.find('p').text()).toEqual('no rental history');				
+			});
+			
+		});
 		
 	})
 	

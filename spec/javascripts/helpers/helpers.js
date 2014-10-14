@@ -29,7 +29,7 @@ function setupNamespace(type, length){
 		window.ns.tenant.units = [];
 		window.ns.paymentsCollection = new backbone_data.Collections.PaymentsCollection();
 		window.ns.receivablesCollection = new backbone_data.Collections.ReceivablesCollection();
-		var units = fullTenantResponse.data;
+		var units = tenantReceivablesFactory.data;
 		for(unit in units){
 			var unit_id = unit;
 			var building = units[unit].building;
@@ -98,12 +98,19 @@ tenantWithoutPayments = {
 								  		}, //close object for unit 2
 						   		   4: { building: {id: '17', name: 'The Kennedy', unit_number: '23A'}, 
 										receivables: {
-													   '3':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "5", amount: "250.00", tenant_id: "84", date: "2014-09-23 03:58:13.387651"}, {id: "6", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]},		
-												       '4':{ rec: {balance: '500', rent: '1000'}, payments: [{id: "7", amount: "250.00", tenant_id: "34", date: "2014-09-23 03:58:13.387651"}, {id: "8", amount: "250.00", tenant_id: "78", date: "2014-09-23 03:40:04.722676"}]}
+													   '3':{ rec: {balance: '500', rent: '1000'}, payments: []},		
+												       '4':{ rec: {balance: '500', rent: '1000'}, payments: []}
 												      } // close receivables for unit 2
 									  } // close object for unit 4
 								} // close data object
 	
+						}
+						
+tenantWithoutReceivables = {
+							status: 'success',
+							tenant: factories.tenant,
+							data: {} // close data object
+
 						}
 				
 fullLandlordResponse = {
