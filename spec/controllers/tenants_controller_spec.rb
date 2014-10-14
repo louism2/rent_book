@@ -4,7 +4,7 @@ describe TenantsController do
   
   params = {name: 'Louie Mancini', email: 'louiscmancini@gmail.com', date_of_birth: '12-7-198'}
   
-  describe 'buildings#create' do
+  describe 'tenants#create' do
     
     it('should create a tenamt and return the id parameter') do
       expect{

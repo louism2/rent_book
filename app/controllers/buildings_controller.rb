@@ -5,6 +5,7 @@ class BuildingsController < ApplicationController
   
   def create
     building = Building.new(building_parameters.merge!({landlord_id: current_user.id}))
+    building.valid?
     if building.save
       render json: {building: {id: building.id}}
     else

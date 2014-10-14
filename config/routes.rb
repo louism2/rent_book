@@ -9,16 +9,18 @@ Rails.application.routes.draw do
     resources :managers
 
     resources :units
+    
+    resources :buildings
 
     resources :receivables
-
-    resources :buildings
 
     resources :landlords
     
     get '/stripe/account_authorization' => 'landlords#auth'
   
   end
+  
+
   
   resources :sessions, only: [:new, :create, :destroy]
   get '/landlords/current_user' => 'landlords#show'

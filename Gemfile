@@ -31,7 +31,6 @@ group :test, :development do
   gem "factory_girl_rails"
   gem "rspec-rails"  
   gem "rspec-mocks"
-  gem "capybara"
   gem "jasmine"
   gem 'jasmine-jquery-rails'
   gem 'sinon-rails'

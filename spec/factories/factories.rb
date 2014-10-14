@@ -38,7 +38,6 @@ FactoryGirl.define do
       tenant_id 1
       receivable_id 1
       amount 500.25
-      payment_date (Date.today)-2
     end
 
     factory :receivable do
@@ -49,6 +48,7 @@ FactoryGirl.define do
     factory :tenant do
       name "Louie Mancini"
       email "louiscmancini@gmail.com"
+      email_confirmation "louiscmancini@gmail.com"
       date_of_birth Date.new(1984,12,7)
       password "Test1234"
       password_confirmation "Test1234"      

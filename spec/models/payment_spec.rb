@@ -30,12 +30,6 @@ describe Payment do
       payment.valid?
       expect(payment.errors[:amount]).to_not be_blank
     end
-    
-    it("if there is no payment_date") do
-      payment = FactoryGirl.build(:payment, payment_date: nil)
-      payment.valid?
-      expect(payment.errors[:payment_date]).to_not be_blank
-    end
   
   end
 
